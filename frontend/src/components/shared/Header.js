@@ -45,7 +45,7 @@ function Header(props) {
 						</li>
 						<ul className="sub-menu collapse" id="new1">
 							<li className="has-subnav">
-								<Link to="/rentalList">
+								<Link to="/traveler-profile/list">
 									<i className="fa  fa-2x"></i>
 									<span className="nav-text">
 										Traveler Profile List
@@ -54,7 +54,7 @@ function Header(props) {
 								</Link>
 							</li>
 							<li className="has-subnav ">
-								<Link to="/addRental">
+								<Link to="/traveler-profile/add">
 									<i className="fa"></i>
 									<span className="nav-text">
 										Add New Traveler Profile
@@ -82,7 +82,7 @@ function Header(props) {
 						</li>
 						<ul className="sub-menu collapse" id="new2">
 							<li className="has-subnav">
-								<Link to="/viewEvent">
+								<Link to="/train-reservation/list">
 									<i className="fa  fa-2x"></i>
 									<span className="nav-text">
 										{" "}
@@ -92,7 +92,7 @@ function Header(props) {
 								</Link>
 							</li>
 							<li className="has-subnav ">
-								<Link to="/addEvent">
+								<Link to="/train-reservation/add">
 									<i className="fa"></i>
 									<span className="nav-text">
 										Add Reservation
@@ -120,7 +120,7 @@ function Header(props) {
 						</li>
 						<ul class="sub-menu collapse" id="new3">
 							<li class="has-subnav ">
-								<Link to="/vehicle/viewVehicle">
+								<Link to="/train-schedule/list">
 									<i class="fa"></i>
 									<span className="nav-text">
 										Train Schedules List
@@ -130,7 +130,7 @@ function Header(props) {
 								</Link>
 							</li>
 							<li className="has-subnav">
-								<Link to="/vehicle/addVehicle">
+								<Link to="/train-schedule/add">
 									<i className="fa  fa-2x"></i>
 									<span class="nav-text">
 										Add Train Schedule
@@ -149,14 +149,13 @@ function Header(props) {
 							data-toggle="collapse"
 							data-target="#new4"
 							className="collapsed">
-							<a href="javascript:void(0)">
-								{" "}
+							<Link to="/login">
 								<i className="fa fa-user fa-2x"></i>{" "}
 								<span className="nav-text">
 									Login
 								</span>{" "}
 								{/* <i className="fa fa-angle-right fa-animate fa-2x"></i> */}
-							</a>
+								</Link>
 						</li>
 						
 						<li></li>
