@@ -16,13 +16,13 @@ function Header(props) {
 						width: 150,
 						marginTop: 50,
 						marginBottom: 20,
-						marginLeft:48,
+						marginLeft: 56,
 					}}
 					alt="tute"
 				/>
 				<ul>
 					<li>
-						<Link to="/dashboard">
+						<Link to="/">
 							<i className="fa fa-th fa-2x"></i>
 							<span className="nav-text">Dashboard</span>
 							<i className="fa fa-angle-right fa-2x"></i>
@@ -36,9 +36,9 @@ function Header(props) {
 							className="collapsed">
 							<a href="javascript:void(0)">
 								{" "}
-								<i className="fa fa-clock-o fa-2x"></i>{" "}
+								<i className="fa fa-user fa-2x"></i>{" "}
 								<span className="nav-text">
-									Traveler Management
+									Traveler &nbsp; Management
 								</span>{" "}
 								<i className="fa fa-angle-right fa-animate fa-2x"></i>
 							</a>
@@ -50,7 +50,6 @@ function Header(props) {
 									<span className="nav-text">
 										Traveler Profile List
 									</span>
-									{/* <i className="fa fa-angle-right fa-2x"></i> */}
 								</Link>
 							</li>
 							<li className="has-subnav ">
@@ -59,7 +58,6 @@ function Header(props) {
 									<span className="nav-text">
 										Add New Traveler Profile
 									</span>
-									{/* <i className="fa fa-angle-right fa-3x"></i> */}
 								</Link>
 							</li>
 						</ul>
@@ -88,7 +86,6 @@ function Header(props) {
 										{" "}
 										Reservations List
 									</span>
-									{/* <i className="fa fa-angle-right fa-2x"></i> */}
 								</Link>
 							</li>
 							<li className="has-subnav ">
@@ -97,7 +94,6 @@ function Header(props) {
 									<span className="nav-text">
 										Add Reservation
 									</span>
-									{/* <i className="fa fa-angle-right fa-3x"></i> */}
 								</Link>
 							</li>
 						</ul>
@@ -111,7 +107,7 @@ function Header(props) {
 							className="collapsed">
 							<a href="javascript:void(0)">
 								{" "}
-								<i className="fa fa-car fa-2x"></i>{" "}
+								<i className="fa fa-train fa-2x"></i>{" "}
 								<span className="nav-text">
 									Train Schedules
 								</span>{" "}
@@ -125,8 +121,6 @@ function Header(props) {
 									<span className="nav-text">
 										Train Schedules List
 									</span>
-
-									{/* <i class="fa fa-angle-right fa-3x"></i> */}
 								</Link>
 							</li>
 							<li className="has-subnav">
@@ -135,15 +129,14 @@ function Header(props) {
 									<span class="nav-text">
 										Add Train Schedule
 									</span>
-									{/* <i className="fa fa-angle-right fa-2x"></i> */}
 								</Link>
 							</li>
 						</ul>
-						
+
 						<li></li>
 					</li>
 					<hr></hr>
-					<li className="has-subnav" style={{marginTop: 210}}>
+					<li className="has-subnav" style={{ marginTop: 210 }}>
 						<hr></hr>
 						<li
 							data-toggle="collapse"
@@ -151,13 +144,10 @@ function Header(props) {
 							className="collapsed">
 							<Link to="/login">
 								<i className="fa fa-user fa-2x"></i>{" "}
-								<span className="nav-text">
-									Login
-								</span>{" "}
-								{/* <i className="fa fa-angle-right fa-animate fa-2x"></i> */}
-								</Link>
+								<span className="nav-text">Login</span>{" "}
+							</Link>
 						</li>
-						
+
 						<li></li>
 					</li>
 				</ul>
