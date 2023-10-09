@@ -1,0 +1,61 @@
+.landingpage {
+	width: 100%;
+	height: 50vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+	position: relative;
+	transition: 0.5s;
+	font-family: "Merianda";
+}
+
+.video-bg {
+	width: 100%;
+	height: 100vh;
+	position: absolute;
+	top: 0;
+	z-index: -1;
+	object-fit: cover;
+}
+
+.bg-overlay {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	z-index: 0;
+}
+
+.home-text {
+	width: 70%;
+	height: 60%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+	z-index: 2;
+	font-family: "Merianda";
+}
+
+#h1 {
+	font-size: 6em;
+	animation-name: fade;
+	animation-duration: 4s;
+	color: white;
+}
+
+#para {
+	justify-self: flex-end;
+	font-size: 2em;
+	color: white;
+}
+@keyframes fade {
+	0% {
+		opacity: 0;
+		margin-left: 3em;
+	}
+	100% {
+		opacity: 1;
+	}
+}
