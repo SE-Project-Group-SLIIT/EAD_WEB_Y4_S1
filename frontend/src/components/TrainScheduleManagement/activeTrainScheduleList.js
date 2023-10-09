@@ -25,41 +25,49 @@ const ActiveTrainScheduleList = () => {
 	// }, []);
 
 	return (
-        <div className="container pt-2">
-		<div className="page-component-body" style={{
+		<div className="container pt-2">
+			<div
+				className="page-component-body"
+				style={{
 					display: "flex",
 					justifyContent: "center",
 					marginTop: 60,
 				}}>
-			<Header></Header>
+				<Header></Header>
 
-			<div style={{ width: 1800, marginLeft: 80 }}>
-				<div class="row table-head mt-3">
-					<div class="col">
-						<h3 className="float-left ">
-                        Active Train Schedules List
-						</h3>
+				<div style={{ width: 1800, marginLeft: 80 }}>
+					<div class="row table-head mt-3">
+						<div class="col">
+							<h3 className="float-left ">
+								Active Train Schedules List
+							</h3>
+						</div>
+						<a href="/train-schedule/add" class="float-right">
+							<button
+								class="btn btn-ok white"
+								style={{ marginRight: "25px" }}>
+								+ &nbsp; New Train Schedule
+							</button>
+						</a>
+						<a href="/train-schedule/list" class="float-right">
+							<button
+								class="btn btn-ok white"
+								style={{ marginRight: "25px" }}>
+								Train Schedules
+							</button>
+						</a>
+						<a
+							href="/train-schedule/list/publish"
+							class="float-right">
+							<button class="btn btn-ok white">
+								Publish Train Schedules
+							</button>
+						</a>
 					</div>
-					<a href="/train-schedule/add" class="float-right">
-						<button class="btn btn-ok white" style={{ marginRight: "25px" }}>
-							+ &nbsp; New Train Schedule
-						</button>
-					</a>
-                    <a href="/train-schedule/list" class="float-right">
-						<button class="btn btn-ok white" style={{ marginRight: "25px" }}>
-							Train Schedules
-						</button>
-					</a>
-					<a href="/train-schedule/list/publish" class="float-right">
-						<button class="btn btn-ok white">
-                        Publish Train Schedules
-						</button>
-					</a>
-				</div>
 
-				<table class="table table-hover">
-					<thead class="thead-dark">
-                    <tr>
+					<table class="table table-hover">
+						<thead class="thead-dark">
+							<tr>
 								<th
 									class="text-center"
 									style={{ width: "80px" }}>
@@ -96,9 +104,9 @@ const ActiveTrainScheduleList = () => {
 									Action
 								</th>
 							</tr>
-					</thead>
-					<tbody>
-						{/* {employees.map((employee) => {
+						</thead>
+						<tbody>
+							{/* {employees.map((employee) => {
 							return (
 								<tr>
 									<td class="text-center">
@@ -125,11 +133,11 @@ const ActiveTrainScheduleList = () => {
 								</tr>
 							);
 						})} */}
-					</tbody>
-				</table>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
-        </div>
 	);
 };
 export default ActiveTrainScheduleList;

@@ -232,24 +232,8 @@ export default function AddTrainSchedule() {
 									role="form"
 									// onSubmit={sendData}
 								>
-									<div className="row">
-										<div class="form-group col-md-6">
-											{/* <label class="form-label" for="Name">Name : </label> */}
-											<input
-												type="text"
-												class="form-control formInput"
-												id="Name"
-												name="Name"
-												placeholder="Train ID"
-												tabindex="1"
-												required
-												// onChange={(e) => {
-												// 	setFirstName(
-												// 		e.target.value,
-												// 	); // assign value
-												// }}
-											/>
-										</div>
+									{/* <div className="row"> */}
+	
 										<div class="form-group col-md-6">
 											<input
 												type="text"
@@ -266,7 +250,7 @@ export default function AddTrainSchedule() {
 												// }}
 											/>
 										</div>
-									</div>
+									{/* </div> */}
 									<div className="row">
 										<div
 											class="form-group col-md-6"
