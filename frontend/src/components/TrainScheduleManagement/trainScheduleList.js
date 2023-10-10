@@ -1,136 +1,98 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../shared/Header";
+import { viewAllTrainSchedules } from "../../services/util/trainScheduleManagement";
+import { Modal } from "react-bootstrap";
+import UpdateTrainSchedule from "./updateTrainSchedule";
 
 export default function TrainScheduleList() {
 	// const [search, setSearch] = useState("");
 
-	// const [employees, setEmployees] = useState([]);
+	const [trainSchedules, setTrainSchedules] = useState([]);
 
-	// const [ModalEmpUpdate, setModalEmpUpdate] = useState([]);
-	// const [ModalEmpUpdateConfirm, setModalEmpUpdateConfirm] =
-	// 	useState(false);
+	const [ModalEmpUpdate, setModalEmpUpdate] = useState([]);
+	const [ModalEmpUpdateConfirm, setModalEmpUpdateConfirm] =
+		useState(false);
 
-	// const [ModalEmpDelete, setModalEmpDelete] = useState([]);
-	// const [ModalEmpDeleteConfirm, setModalEmpDeleteConfirm] =
-	// 	useState(false);
+	const [ModalEmpDelete, setModalEmpDelete] = useState([]);
+	const [ModalEmpDeleteConfirm, setModalEmpDeleteConfirm] =
+		useState(false);
 
-    //     const [ModalEmpActive, setModalEmpActive] = useState([]);
-    //     const [ModalEmpActiveConfirm, setModalEmpActiveConfirm] =
-    //         useState(false);
+        const [ModalEmpActive, setModalEmpActive] = useState([]);
+        const [ModalEmpActiveConfirm, setModalEmpActiveConfirm] =
+            useState(false);
 
-	// useEffect(() => {
-	// 	async function getEmployees() {
-	// 		try {
-	// 			let respond = await viewEmployees();
-	// 			if (respond.data) {
-	// 				setEmployees(respond.data);
-	// 			} else {
-	// 				console.log("error");
-	// 			}
-	// 		} catch (error) {
-	// 			console.log(error);
-	// 		}
-	// 	}
+    console.log(trainSchedules);
 
-	// 	getEmployees();
-	// }, []);
+	useEffect(() => {
+		async function getAllTrainSchedules() {
+			try {
+				let respond = await viewAllTrainSchedules();
+				if (respond.data) {
+					setTrainSchedules(respond.data);
+				} else {
+					console.log("error");
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		}
 
-	// const deleteEmployee = async (id) => {
-	// 	try {
-	// 		const response = await inactiveEmployee(id);
-	// 		// You can handle the response as needed
-	// 		if (response.status === 200) {
-	// 			// Employee was made inactive successfully
-	// 			return response.data;
-	// 		} else {
-	// 			// Handle the error case
-	// 			throw new Error("Failed to make the employee inactive");
-	// 		}
-	// 	} catch (error) {
-	// 		// Handle any other errors
-	// 		console.error("An error occurred:", error);
-	// 		throw error;
-	// 	}
-	// 	// console.log("deleteEmployee...", data);
-	// 	// await axios
-	// 	// 	.post("http://localhost:8070/REmployee/addRemovedEmp/", {
-	// 	// 		data,
-	// 	// 	})
-	// 	// 	.then(() => {
-	// 	// 		Swal.fire({
-	// 	// 			title: "Success!",
-	// 	// 			text: "Permenantly deleted the Employee Record",
-	// 	// 			icon: "success",
-	// 	// 			showConfirmButton: false,
-	// 	// 			timer: 1500,
-	// 	// 		});
-	// 	// 		console.log("Emp delete modal....");
+		getAllTrainSchedules();
+	}, []);
 
-	// 	// 		console.log(ModalEmpDelete);
-	// 	// 		const value = axios.post(
-	// 	// 			"http://localhost:8070/employee/deleteEmp",
-	// 	// 			ModalEmpDelete,
-	// 	// 		);
-	// 	// 		if (value) {
-	// 	// 			Swal.fire({
-	// 	// 				title: "Success!",
-	// 	// 				text: "Permenantly deleted the Employee Record &  added successfully into the Removed Employee List !!",
-	// 	// 				icon: "success",
-	// 	// 				showConfirmButton: false,
-	// 	// 				timer: 2000,
-	// 	// 			}).then(() => {
-	// 	// 				console.log("111111111111");
-	// 	// 				window.location.reload();
-	// 	// 			});
-	// 	// 		}
-	// 	// 	})
-	// 	// 	.catch((err) => {
-	// 	// 		Swal.fire({
-	// 	// 			icon: "error",
-	// 	// 			title: "Oops...",
-	// 	// 			text: "Something went wrong!",
-	// 	// 			confirmButtonColor: "#207159",
-	// 	// 		}).then(() => {
-	// 	// 			window.location.reload();
-	// 	// 		});
-	// 	// 		alert(err.response.data.errorCode);
-	// 	// 	});
-	// };
+	const deleteEmployee = async (id) => {
+		// try {
+		// 	const response = await inactiveEmployee(id);
+		// 	// You can handle the response as needed
+		// 	if (response.status === 200) {
+		// 		// Employee was made inactive successfully
+		// 		return response.data;
+		// 	} else {
+		// 		// Handle the error case
+		// 		throw new Error("Failed to make the employee inactive");
+		// 	}
+		// } catch (error) {
+		// 	// Handle any other errors
+		// 	console.error("An error occurred:", error);
+		// 	throw error;
+		// }
+		
+	};
 
-    // const restoreEmployee = async (id) => {
-	// 	try {
-	// 		const response = await activeEmployee(id);
-	// 		// You can handle the response as needed
-	// 		if (response.status === 200) {
-	// 			// Employee was made inactive successfully
-	// 			return response.data;
-	// 		} else {
-	// 			// Handle the error case
-	// 			throw new Error("Failed to make the employee inactive");
-	// 		}
-	// 	} catch (error) {
-	// 		// Handle any other errors
-	// 		console.error("An error occurred:", error);
-	// 		throw error;
-	// 	}
-	// };
+    const restoreEmployee = async (id) => {
+		// try {
+		// 	const response = await activeEmployee(id);
+		// 	// You can handle the response as needed
+		// 	if (response.status === 200) {
+		// 		// Employee was made inactive successfully
+		// 		return response.data;
+		// 	} else {
+		// 		// Handle the error case
+		// 		throw new Error("Failed to make the employee inactive");
+		// 	}
+		// } catch (error) {
+		// 	// Handle any other errors
+		// 	console.error("An error occurred:", error);
+		// 	throw error;
+		// }
+	};
 
-	// const openModalEmpUpdate = (data) => {
-	// 	setModalEmpUpdate(data);
-	// 	setModalEmpUpdateConfirm(true);
-	// };
+	const openModalEmpUpdate = (data) => {
+		setModalEmpUpdate(data);
+		setModalEmpUpdateConfirm(true);
+	};
 
-	// const openModalEmpDelete = (data) => {
-	// 	console.log("delEmp");
-	// 	setModalEmpDelete(data);
-	// 	setModalEmpDeleteConfirm(true);
-	// };
+	const openModalEmpDelete = (data) => {
+		console.log("delEmp");
+		setModalEmpDelete(data);
+		setModalEmpDeleteConfirm(true);
+	};
 
-    // const openModalEmpActivate = (data) => {
-	// 	console.log("delEmp");
-	// 	setModalEmpActive(data);
-	// 	setModalEmpActiveConfirm(true);
-	// };
+    const openModalEmpActivate = (data) => {
+		console.log("delEmp");
+		setModalEmpActive(data);
+		setModalEmpActiveConfirm(true);
+	};
 
 	return (
 		<div className="container pt-2">
@@ -176,11 +138,11 @@ export default function TrainScheduleList() {
 					<table class="table table-hover">
 						<thead class="thead-dark">
 							<tr>
-								<th
+								{/* <th
 									class="text-center"
 									style={{ width: "80px" }}>
 									Train ID
-								</th>
+								</th> */}
 								<th
 									class="text-center"
 									style={{ width: "105px" }}>
@@ -214,30 +176,25 @@ export default function TrainScheduleList() {
 							</tr>
 						</thead>
 						<tbody>
-							{/* {employees.map((employee) => {
+							{trainSchedules.map((trainSchedule) => {
 								return (
 									<tr>
 										<td class="text-center">
-											{employee.firstName}
+											{trainSchedule.trainName}
 										</td>
 										<td class="text-center">
-											{employee.lastName}
+											{trainSchedule.arrivalStation}
 										</td>
 										<td class="text-center">
-											{employee.address}
+											{trainSchedule.departureStation}
 										</td>
 										<td class="text-center">
-											{employee.emailAddress}
+											{trainSchedule.arrivalTime}
 										</td>
 										<td class="text-center">
-											{employee.phoneNumber}
+											{trainSchedule.departureTime}
 										</td>
-										<td class="text-center">
-											{employee.nic}
-										</td>
-										<td class="text-center">
-											{employee.designation}
-										</td>
+									
 										<td class="text-center">
 											<button
 												class="btn btn-warning btn-sm"
@@ -246,68 +203,55 @@ export default function TrainScheduleList() {
 												}}
 												onClick={() =>
 													openModalEmpUpdate(
-														employee,
+														trainSchedule,
 													)
 												}>
 												Update
 											</button>
-											{employee.isActive ? ( // Check if employee.isActive is true
 												<button
 													onClick={() =>
 														openModalEmpDelete(
-															employee,
+															trainSchedule,
 														)
 													}
 													class="btn btn-danger btn-sm">
-													Inactive
+													Cancel
 												</button>
-											) : (
-												// If employee.isActive is false
-												<button
-													onClick={() =>
-														openModalEmpActivate(
-															employee,
-														)
-													}
-													class="btn btn-success btn-sm">
-													Active
-												</button>
-											)}
+										
 										</td>
 									</tr>
 								);
-							})} */}
+							})}
 						</tbody>
 					</table>
 				</div>
 
 				{/* modal for update employee details */}
-				{/* <Modal
+				<Modal
 					show={ModalEmpUpdateConfirm}
 					onHide={() => setModalEmpUpdateConfirm(false)}
 					size="lg"
 					aria-labelledby="contained-modal-title-vcenter"
 					centered>
-					<UpdateEmployee
+					<UpdateTrainSchedule
 						data={ModalEmpUpdate}
 						onHide={() => setModalEmpUpdate(false)}
 					/>
-				</Modal> */}
+				</Modal>
 
 				{/* modal for delete employee details */}
-				{/* <Modal
+				<Modal
 					show={ModalEmpDeleteConfirm}
 					onHide={() => setModalEmpDeleteConfirm(false)}
 					size="md"
 					aria-labelledby="contained-modal-title-vcenter"
 					centered>
 					<Modal.Header closeButton>
-						<Modal.Title>Confirm Deletion</Modal.Title>
+						<Modal.Title>Confirm Cancellation</Modal.Title>
 					</Modal.Header>
 					<Modal.Body>
 						<p>
-							Would you like to remove this employee's
-							details ?
+							Are you sure you want to cancel this train schedule ?
 						</p>
 					</Modal.Body>
 					<Modal.Footer>
@@ -335,50 +279,7 @@ export default function TrainScheduleList() {
 							</div>
 						</div>
 					</Modal.Footer>
-				</Modal> */}
-
-                	{/* modal for active employee details */}
-				{/* <Modal
-					show={ModalEmpActiveConfirm}
-					onHide={() => setModalEmpActiveConfirm(false)}
-					size="md"
-					aria-labelledby="contained-modal-title-vcenter"
-					centered>
-					<Modal.Header closeButton>
-						<Modal.Title>Confirm Activation</Modal.Title>
-					</Modal.Header>
-					<Modal.Body>
-						<p>
-							Would you like to active this employee's
-							details ?
-						</p>
-					</Modal.Body>
-					<Modal.Footer>
-						<div className="row">
-							<div className="col -6">
-								<button
-									type="submit"
-									className="btn btn-delete"
-									onClick={() => {
-										restoreEmployee(ModalEmpActive);
-									}}>
-									Confirm
-								</button>
-							</div>
-							<div
-								className="col-6 text-right"
-								onClick={() =>
-									setModalEmpActiveConfirm(false)
-								}>
-								<button
-									type="reset"
-									className="btn btn-reset">
-									cancel
-								</button>
-							</div>
-						</div>
-					</Modal.Footer>
-				</Modal> */}
+				</Modal>
 			</div>
 		</div>
 	);
