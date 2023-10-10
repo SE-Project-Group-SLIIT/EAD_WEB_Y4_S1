@@ -12,6 +12,15 @@ export let viewAllTrainSchedules = async () => {
 	}
 };
 
+export let addTrainSchedules = async () => {
+	try {
+		let value = await axios.post(BASE_PATH);
+		return value;
+	} catch (error) {
+		return error;
+	}
+};
+
 export let updateTrainSchedules = async (data) => {
 	try {
 		let value = await axios.put(

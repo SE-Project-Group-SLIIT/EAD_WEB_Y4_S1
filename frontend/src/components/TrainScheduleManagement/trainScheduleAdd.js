@@ -1,6 +1,8 @@
-import React from "react";
-
+import React, { useState } from "react";
+import moment from "moment";
 import Header from "../shared/Header";
+import Swal from "sweetalert2";
+import { addTrainSchedules } from "../../services/util/trainScheduleManagement";
 
 export default function AddTrainSchedule() {
 
@@ -22,187 +24,51 @@ export default function AddTrainSchedule() {
 		{ name: "Kurunegala", value: "kurunegala" },
 	];
 
-	// const [firstName, setFirstName] = useState("");
-	// const [lastName, setLastName] = useState("");
-	// const [address, setAddress] = useState("");
-	// const [nic, setNIC] = useState("");
-	// const [dateOfBirth, setDateOfBirth] = useState(moment().format('MM-DD-YYYY'));
-	// const [phoneNumber, setPhoneNumber] = useState("");
-	// const [emailAddress, setEmailAddress] = useState("");
-	// const [gender, setGender] = useState("");
-	// const [joiningDate, setJoiningDate] = useState(moment().format('MM-DD-YYYY'));
-	// const [designation, setDesignation] = useState("");
+	const [trainName, settrainName] = useState("");
+	const [arrivalStation, setarrivalStation] = useState("");
+	const [departureStation, setdepartureStation] = useState("");
+	const [arrivalTime, setarrivalTime] = useState(moment().format('mm:hh'));
+	const [departureTime, setdepartureTime] = useState(moment().format('mm:hh'));
+    const [isActive, setIsActive] = useState(true);
+    const [isPublish, setIsPublish] = useState(true);
 
-	// const [TeleErr, setTeleNoErr] = useState("");
-	// const [NICErr, setNICErr] = useState("");
+	async function sendData(e) {
+		e.preventDefault();
 
-	// async function sendData(e) {
-	// 	e.preventDefault();
-
-	// 	const teleValid = TeleValidation();
-	// 	const NICValid = NICValidation();
-
-	// 	const newEmployee = {
-	// 	  firstName,
-	// 	  lastName,
-	// 	  address,
-	// 	  nic,
-	// 	  dateOfBirth,
-	// 	  phoneNumber,
-	// 	  emailAddress,
-	// 	  gender,
-	// 	  joiningDate,
-	// 	  designation,
-	// 	};
+		const newTrainSchedule = {
+			trainName,
+			arrivalStation,
+			departureStation,
+			arrivalTime,
+			departureTime,
+			isActive,
+			isPublish,
+		};
 
 	// Send data to the backend
-	// 	if (teleValid === true && NICValid === true) {
-	// 	  try {
-	// 		const response = await addEmployees(newEmployee); // Call your backend function
-	// 		// Handle success response here
-	// 		Swal.fire({
-	// 		  title: "Success!",
-	// 		  text: "Employee Details Added Successfully",
-	// 		  icon: "success",
-	// 		  showConfirmButton: false,
-	// 		  timer: 2000,
-	// 		}).then(() => {
-	// 		  window.location.replace("/all-employee-list");
-	// 		});
-	// 	  } catch (error) {
-	// 		// Handle error response here
-	// 		const msgerr = error.response.data.msg || "An error occurred";
-	// 		Swal.fire({
-	// 		  icon: "warning",
-	// 		  title: "Oops...",
-	// 		  text: `${msgerr}`,
-	// 		  confirmButtonColor: "#1fc191",
-	// 		});
-	// 	  }
-	// 	}
-	//   }
-
-	// const TeleValidation = () => {
-	// 	//validate function
-
-	// 	const TeleErr = {}; //State
-	// 	let teleValid = true; //setting flag
-
-	// 	if (phoneNumber.trim().length > 10) {
-	// 		TeleErr.InValidTeleNo = " *Invalid Telephone Number"; // error msg
-	// 		// alert("**Invalid Telephone Number");
-	// 		Swal.fire({
-	// 			icon: "error",
-	// 			title: "Oops...Invalid Telephone Number",
-	// 			text: "You enterd Invalid Telephone Number , Try Again !!",
-	// 			confirmButtonColor: "#1fc191",
-	// 			// footer: '<a href=""#home">Why do I have this issue?</a>'
-	// 		});
-	// 		teleValid = false;
-	// 	} else if (phoneNumber.trim().length < 10) {
-	// 		TeleErr.InValidTeleNo = " *Invalid Telephone Number"; // error msg
-	// 		// alert("**Invalid Telephone Number");
-	// 		Swal.fire({
-	// 			icon: "error",
-	// 			title: "Oops...Invalid Telephone Number",
-	// 			text: "You enterd Invalid Telephone Number , Try Again !!",
-	// 			confirmButtonColor: "#1fc191",
-	// 			// footer: '<a href=""#home">Why do I have this issue?</a>'
-	// 		});
-	// 		teleValid = false;
-	// 	}
-
-	// 	setTeleNoErr(TeleErr); //update error objects
-
-	// 	return teleValid;
-	// };
-
-	// const NICValidation = () => {
-	// 	const NICErr = {}; //State
-	// 	let NICValid = true; //setting flag
-
-	// 	if (nic.trim().length > 12) {
-	// 		NICErr.InValidNIC = " Invalid NIC Number"; // error msg
-	// 		// alert("**Invalid NIC Number");
-	// 		Swal.fire({
-	// 			icon: "error",
-	// 			title: "Oops...Invalid NIC Number",
-	// 			text: "You enterd invalid NIC , Try Again !!",
-	// 			confirmButtonColor: "#1fc191",
-	// 			// footer: '<a href=""#home">Why do I have this issue?</a>'
-	// 		});
-	// 		NICValid = false;
-	// 	} else if (nic.trim().length < 10) {
-	// 		NICErr.InValidNIC = " Invalid NIC Number"; // error msg
-	// 		// alert("**Invalid NIC Number");
-	// 		Swal.fire({
-	// 			icon: "error",
-	// 			title: "Oops... Invalid NIC Number",
-	// 			text: "You enterd invalid NIC , Try Again !!",
-	// 			confirmButtonColor: "#1fc191",
-	// 			// footer: '<a href=""#home">Why do I have this issue?</a>'
-	// 		});
-	// 		NICValid = false;
-	// 	}
-
-	// 	setNICErr(NICErr); //update error objects
-	// 	return NICValid;
-	// };
-
-	// const [isMobileValid, setMobileIsValid] = useState(false);
-	// const [Mobilemessage, setMobileMessage] = useState("");
-
-	// const MobileRegex =
-	// 	/^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$/;
-
-	// const validateMobile = (event) => {
-	// 	const mobile = event.target.value;
-	// 	if (MobileRegex.test(mobile)) {
-	// 		setMobileIsValid(true);
-	// 		setMobileMessage("Your Mobile Number looks good!");
-	// 	} else {
-	// 		setMobileIsValid(false);
-	// 		setMobileMessage("Please enter a valid Mobile Number!");
-	// 	}
-	// };
-
-	// const [isValid, setIsValid] = useState(false);
-	// const [message, setMessage] = useState("");
-
-	// const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-
-	// const validateEmail = (event) => {
-	// 	const email = event.target.value;
-	// 	if (emailRegex.test(email)) {
-	// 		setIsValid(true);
-	// 		setMessage("Your email looks good!");
-	// 	} else {
-	// 		setIsValid(false);
-	// 		setMessage("Please enter a valid email!");
-	// 	}
-	// };
-
-	// const [isNICValid, setNICIsValid] = useState(false);
-	// const [NICmessage, setNICMessage] = useState("");
-
-	// const NICRegex1 =
-	// 	/^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][V.v]$/;
-	// const NICRegex2 =
-	// 	/^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$/;
-
-	// const validateNIC = (event) => {
-	// 	const NIC = event.target.value;
-	// 	if (NICRegex1.test(NIC)) {
-	// 		setNICIsValid(true);
-	// 		setNICMessage("Your NIC looks good!");
-	// 	} else if (NICRegex2.test(NIC)) {
-	// 		setNICIsValid(true);
-	// 		setNICMessage("Your NIC looks good!");
-	// 	} else {
-	// 		setNICIsValid(false);
-	// 		setNICMessage("Please enter a valid NIC Number!");
-	// 	}
-	// };
+		  try {
+			const response = await addTrainSchedules(newTrainSchedule); // Call your backend function
+			// Handle success response here
+			Swal.fire({
+			  title: "Success!",
+			  text: "Train Schedule Details Added Successfully",
+			  icon: "success",
+			  showConfirmButton: false,
+			  timer: 2000,
+			}).then(() => {
+			//   window.location.replace("/train-schedule/list");
+			});
+		  } catch (error) {
+			// Handle error response here
+			const msgerr = error.response.data.msg || "An error occurred";
+			Swal.fire({
+			  icon: "warning",
+			  title: "Oops...",
+			  text: `${msgerr}`,
+			  confirmButtonColor: "#1fc191",
+			});
+		  }
+	  }
 
 	return (
 		<div class="page-component-body">
@@ -230,9 +96,8 @@ export default function AddTrainSchedule() {
 									id="contact-form"
 									class="form"
 									role="form"
-									// onSubmit={sendData}
+									onSubmit={sendData}
 								>
-									{/* <div className="row"> */}
 	
 										<div class="form-group col-md-6">
 											<input
@@ -243,14 +108,13 @@ export default function AddTrainSchedule() {
 												placeholder="Train Name"
 												tabindex="1"
 												required
-												// onChange={(e) => {
-												// 	setLastName(
-												// 		e.target.value,
-												// 	); // assign value
-												// }}
+												onChange={(e) => {
+													settrainName(
+														e.target.value,
+													); 
+												}}
 											/>
 										</div>
-									{/* </div> */}
 									<div className="row">
 										<div
 											class="form-group col-md-6"
@@ -271,11 +135,11 @@ export default function AddTrainSchedule() {
 												placeholder="Arrival Station"
 												tabindex="1"
 												required
-												// onChange={(e) => {
-												// 	setFirstName(
-												// 		e.target.value,
-												// 	); // assign value
-												// }}
+												onChange={(e) => {
+													setarrivalStation(
+														e.target.value,
+													);
+												}}
 											>
 												{railwayStations.map(
 													(station) => (
@@ -311,11 +175,11 @@ export default function AddTrainSchedule() {
 												placeholder="Departure Station"
 												tabindex="1"
 												required
-												// onChange={(e) => {
-												// 	setLastName(
-												// 		e.target.value,
-												// 	); // assign value
-												// }}
+												onChange={(e) => {
+													setdepartureStation(
+														e.target.value,
+													);
+												}}
 											>
 												{railwayStations.map(
 													(station) => (
@@ -338,26 +202,23 @@ export default function AddTrainSchedule() {
 										<div
 											class="form-group col-md-6"
 											style={{ marginTop: 15 }}>
-											{/* <label class="form-label" for="Email">Email : </label> */}
 											<input
-												type="email"
+												type="text"
 												class="form-control formInput"
 												id="Email"
 												placeholder="Arrival Time"
 												tabindex="6"
 												required
-												// onChange={(e) => {
-												// 	setEmailAddress(
-												// 		e.target.value,
-												// 	); //assign value
-												// 	validateEmail(e);
-												// }}
+												onChange={(e) => {
+													setarrivalTime(
+														e.target.value,
+													);
+												}}
 											/>
 										</div>
 										<div
 											class="form-group col-md-6"
 											style={{ marginTop: 15 }}>
-											{/* <label class="form-label" for="Phone">Phone : </label> */}
 											<input
 												type="text"
 												class="form-control formInput"
@@ -365,12 +226,11 @@ export default function AddTrainSchedule() {
 												placeholder="Departure Time"
 												tabindex="5"
 												required
-												// onChange={(e) => {
-												// 	setPhoneNumber(
-												// 		e.target.value,
-												// 	);
-												// 	validateMobile(e);
-												// }}
+												onChange={(e) => {
+													setdepartureTime(
+														e.target.value,
+													);
+												}}
 											/>
 										</div>
 									</div>
@@ -390,11 +250,11 @@ export default function AddTrainSchedule() {
 												name="isActive"
 												value="Active"
 												required
-												// onChange={(e) => {
-												// 	setGender(
-												// 		e.target.value,
-												// 	);
-												// }}
+												onChange={(e) => {
+													setIsActive(
+														e.target.value,
+													);
+												}}
 											/>
 											&nbsp;&nbsp;
 											Active&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -404,12 +264,11 @@ export default function AddTrainSchedule() {
 												name="isActive"
 												value="Inactive"
 												required
-												// onChange={(e) => {
-												// 	setGender(
-												// 		e.target.value,
-												// 	);
-												// 	// {' '}
-												// }}
+												onChange={(e) => {
+													setIsActive(
+														e.target.value,
+													);
+												}}
 											/>
 											&nbsp;&nbsp; Inactive
 										</div>
@@ -421,15 +280,15 @@ export default function AddTrainSchedule() {
 											<br />
 											<input
 												type="radio"
-												id="isActive"
-												name="isActive"
-												value="Active"
+												id="isPublish"
+												name="isPublish"
+												value="isPublish"
 												required
-												// onChange={(e) => {
-												// 	setGender(
-												// 		e.target.value,
-												// 	);
-												// }}
+												onChange={(e) => {
+													setIsPublish(
+														e.target.value,
+													);
+												}}
 											/>
 											&nbsp;&nbsp; Approve
 											publishing&nbsp;&nbsp;&nbsp;&nbsp;
@@ -439,12 +298,11 @@ export default function AddTrainSchedule() {
 												name="isActive"
 												value="Inactive"
 												required
-												// onChange={(e) => {
-												// 	setGender(
-												// 		e.target.value,
-												// 	);
-												// 	// {' '}
-												// }}
+												onChange={(e) => {
+													setIsPublish(
+														e.target.value,
+													);
+												}}
 											/>
 											&nbsp;&nbsp; Decline publishing
 										</div>

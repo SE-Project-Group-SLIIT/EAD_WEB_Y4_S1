@@ -1,29 +1,33 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
+import { viewAllTrainSchedules } from "../../services/util/trainScheduleManagement";
 import Header from "../shared/Header";
 
 const ActiveTrainScheduleList = () => {
 	// const [employees, setEmployees] = useState([]);
 	// const [showEmp, setShowEmp] = useState(false);
 	// const [modalEmp, setEmp] = useState([]);
+	const [trainSchedules, setTrainSchedules] = useState([]);
 
-	// useEffect(() => {
-	// 	async function getEmployees() {
-	// 		try {
-	// 			let respond = await viewAllActiveEmployees();
-	// 			if (respond.data) {
-	// 				setEmployees(respond.data);
-	// 			} else {
-	// 				console.log("error");
-	// 			}
-	// 		} catch (error) {
-	// 			console.log(error);
-	// 		}
-	// 	}
-
-	// 	getEmployees();
-	// }, []);
-
+	useEffect(() => {
+		async function getAllTrainSchedules() {
+		  try {
+			let respond = await viewAllTrainSchedules();
+			if (respond.data) {
+			  // Filter the data to get only schedules with isActive = true
+			  const activeTrainSchedules = respond.data.filter(schedule => schedule.isActive === true);
+			  setTrainSchedules(activeTrainSchedules);
+			  console.log(activeTrainSchedules);
+			} else {
+			  console.log("error");
+			}
+		  } catch (error) {
+			console.log(error);
+		  }
+		}
+	  
+		getAllTrainSchedules();
+	  }, []);
+	  
 	return (
 		<div className="container pt-2">
 			<div
@@ -68,11 +72,11 @@ const ActiveTrainScheduleList = () => {
 					<table class="table table-hover">
 						<thead class="thead-dark">
 							<tr>
-								<th
+								{/* <th
 									class="text-center"
 									style={{ width: "80px" }}>
 									Train ID
-								</th>
+								</th> */}
 								<th
 									class="text-center"
 									style={{ width: "105px" }}>
@@ -106,33 +110,52 @@ const ActiveTrainScheduleList = () => {
 							</tr>
 						</thead>
 						<tbody>
-							{/* {employees.map((employee) => {
+							{trainSchedules.map((trainSchedule) => {
 							return (
 								<tr>
 									<td class="text-center">
-										{employee.firstName}
+										{trainSchedule.trainName}
 									</td>
 									<td class="text-center">
-										{employee.lastName}
+										{trainSchedule.arrivalStation}
 									</td>
 									<td class="text-center">
-										{employee.address}
+										{trainSchedule.departureStation}
+									</td>								
+									<td class="text-center">
+										{trainSchedule.arrivalTime}
 									</td>
 									<td class="text-center">
-										{employee.emailAddress}
+										{trainSchedule.departureTime}
 									</td>
 									<td class="text-center">
-										{employee.phoneNumber}
-									</td>
-									<td class="text-center">
-										{employee.nic}
-									</td>
-									<td class="text-center">
-										{employee.designation}
-									</td>
+											<button
+												class="btn btn-warning btn-sm"
+												style={{
+													marginRight: "4px",
+												}}
+												// onClick={() =>
+												// 	openModalEmpUpdate(
+												// 		trainSchedule,
+												// 	)
+												// }
+												>
+												Update
+											</button>
+												<button
+													// onClick={() =>
+													// 	openModalEmpDelete(
+													// 		trainSchedule,
+													// 	)
+													// }
+													class="btn btn-danger btn-sm">
+													Cancel
+												</button>
+										
+										</td>
 								</tr>
 							);
-						})} */}
+						})}
 						</tbody>
 					</table>
 				</div>
