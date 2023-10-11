@@ -5,6 +5,7 @@ import AddTrainSchedule from "../components/TrainScheduleManagement/trainSchedul
 import TrainScheduleList from "../components/TrainScheduleManagement/trainScheduleList";
 import ActiveTrainScheduleList from "../components/TrainScheduleManagement/activeTrainScheduleList";
 import PublishTrainScheduleList from "../components/TrainScheduleManagement/publishtrainScheduleList";
+import AllTravelerList from "../components/TravelerManagement/allTravelers"
 
 const PageRoutes = () => {
 	return (
@@ -21,11 +22,11 @@ const PageRoutes = () => {
 							path="/train-schedule/add"
 							element={<AddTrainSchedule />}
 						/>
-							<Route
+						<Route
 							path="/train-schedule/list/active"
 							element={<ActiveTrainScheduleList />}
 						/>
-							<Route
+						<Route
 							path="/train-schedule/list/publish"
 							element={<PublishTrainScheduleList />}
 						/>
@@ -39,7 +40,7 @@ const PageRoutes = () => {
 						/>
 						<Route
 							path="/traveler-profile/list"
-							element={<HomePage />}
+							element={<AllTravelerList />}
 						/>
 						<Route
 							path="/traveler-profile/add"
