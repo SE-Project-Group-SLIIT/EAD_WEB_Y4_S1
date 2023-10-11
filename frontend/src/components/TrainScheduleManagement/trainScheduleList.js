@@ -17,11 +17,11 @@ export default function TrainScheduleList() {
 	const [ModalEmpDeleteConfirm, setModalEmpDeleteConfirm] =
 		useState(false);
 
-        const [ModalEmpActive, setModalEmpActive] = useState([]);
-        const [ModalEmpActiveConfirm, setModalEmpActiveConfirm] =
-            useState(false);
+	const [ModalEmpActive, setModalEmpActive] = useState([]);
+	const [ModalEmpActiveConfirm, setModalEmpActiveConfirm] =
+		useState(false);
 
-    console.log(trainSchedules);
+	console.log(trainSchedules);
 
 	useEffect(() => {
 		async function getAllTrainSchedules() {
@@ -40,43 +40,6 @@ export default function TrainScheduleList() {
 		getAllTrainSchedules();
 	}, []);
 
-	const deleteEmployee = async (id) => {
-		// try {
-		// 	const response = await inactiveEmployee(id);
-		// 	// You can handle the response as needed
-		// 	if (response.status === 200) {
-		// 		// Employee was made inactive successfully
-		// 		return response.data;
-		// 	} else {
-		// 		// Handle the error case
-		// 		throw new Error("Failed to make the employee inactive");
-		// 	}
-		// } catch (error) {
-		// 	// Handle any other errors
-		// 	console.error("An error occurred:", error);
-		// 	throw error;
-		// }
-		
-	};
-
-    const restoreEmployee = async (id) => {
-		// try {
-		// 	const response = await activeEmployee(id);
-		// 	// You can handle the response as needed
-		// 	if (response.status === 200) {
-		// 		// Employee was made inactive successfully
-		// 		return response.data;
-		// 	} else {
-		// 		// Handle the error case
-		// 		throw new Error("Failed to make the employee inactive");
-		// 	}
-		// } catch (error) {
-		// 	// Handle any other errors
-		// 	console.error("An error occurred:", error);
-		// 	throw error;
-		// }
-	};
-
 	const openModalEmpUpdate = (data) => {
 		setModalEmpUpdate(data);
 		setModalEmpUpdateConfirm(true);
@@ -88,7 +51,7 @@ export default function TrainScheduleList() {
 		setModalEmpDeleteConfirm(true);
 	};
 
-    const openModalEmpActivate = (data) => {
+	const openModalEmpActivate = (data) => {
 		console.log("delEmp");
 		setModalEmpActive(data);
 		setModalEmpActiveConfirm(true);
@@ -96,7 +59,9 @@ export default function TrainScheduleList() {
 
 	return (
 		<div className="container pt-2">
-			<div className="page-component-body" style={{
+			<div
+				className="page-component-body"
+				style={{
 					display: "flex",
 					justifyContent: "center",
 					marginTop: 60,
@@ -106,9 +71,7 @@ export default function TrainScheduleList() {
 				<div style={{ width: 1800, marginLeft: 80 }}>
 					<div class="row table-head mt-4 mb-5">
 						<div class="col">
-							<h3 className="float-left">
-								Train Schedules
-							</h3>
+							<h3 className="float-left">Train Schedules</h3>
 						</div>
 						<a href="/train-schedule/add" class="float-right">
 							<button
@@ -130,7 +93,7 @@ export default function TrainScheduleList() {
 							href="/train-schedule/list/publish"
 							class="float-right">
 							<button class="btn btn-ok white">
-                            Publish Train Schedules
+								Publish Train Schedules
 							</button>
 						</a>
 					</div>
@@ -138,11 +101,6 @@ export default function TrainScheduleList() {
 					<table class="table table-hover">
 						<thead class="thead-dark">
 							<tr>
-								{/* <th
-									class="text-center"
-									style={{ width: "80px" }}>
-									Train ID
-								</th> */}
 								<th
 									class="text-center"
 									style={{ width: "105px" }}>
@@ -186,15 +144,19 @@ export default function TrainScheduleList() {
 											{trainSchedule.arrivalStation}
 										</td>
 										<td class="text-center">
-											{trainSchedule.departureStation}
+											{
+												trainSchedule.departureStation
+											}
 										</td>
 										<td class="text-center">
-											{trainSchedule.arrivalTime}
+											{/* {trainSchedule.arrivalTime} */}
+											{trainSchedule.arrivalTime.slice(11, 19)}
 										</td>
 										<td class="text-center">
-											{trainSchedule.departureTime}
+											{/* {trainSchedule.departureTime} */}
+											{trainSchedule.departureTime.slice(11, 19)}
 										</td>
-									
+
 										<td class="text-center">
 											<button
 												class="btn btn-warning btn-sm"
@@ -208,16 +170,15 @@ export default function TrainScheduleList() {
 												}>
 												Update
 											</button>
-												<button
-													onClick={() =>
-														openModalEmpDelete(
-															trainSchedule,
-														)
-													}
-													class="btn btn-danger btn-sm">
-													Cancel
-												</button>
-										
+											<button
+												onClick={() =>
+													openModalEmpDelete(
+														trainSchedule,
+													)
+												}
+												class="btn btn-danger btn-sm">
+												Cancel
+											</button>
 										</td>
 									</tr>
 								);
@@ -251,7 +212,8 @@ export default function TrainScheduleList() {
 					</Modal.Header>
 					<Modal.Body>
 						<p>
-							Are you sure you want to cancel this train schedule ?
+							Are you sure you want to cancel this train
+							schedule ?
 						</p>
 					</Modal.Body>
 					<Modal.Footer>
@@ -260,10 +222,11 @@ export default function TrainScheduleList() {
 								<button
 									type="submit"
 									className="btn btn-delete"
-									onClick={() => {
-										deleteEmployee(ModalEmpDelete);
-									}}>
-									Confirm
+									// onClick={() => {
+									// 	deleteEmployee(ModalEmpDelete);
+									// }}
+								>
+									Yes
 								</button>
 							</div>
 							<div
@@ -274,7 +237,7 @@ export default function TrainScheduleList() {
 								<button
 									type="reset"
 									className="btn btn-reset">
-									cancel
+									No
 								</button>
 							</div>
 						</div>
