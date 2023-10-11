@@ -1,62 +1,49 @@
-import React, { useState } from "react";
-import moment from "moment";
-import Header from "../shared/Header";
+import { React, useEffect, useState } from "react";
+import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
-import { addTrainSchedules } from "../../services/util/trainScheduleManagement";
+import { updateTrainSchedules } from "../../services/util/trainScheduleManagement";
 
-export default function AddTrainSchedule() {
-
-	const railwayStations = [
-		{ name: "Colombo Fort", value: "colombo_fort" },
-		{ name: "Kandy", value: "kandy" },
-		{ name: "Gampaha", value: "gampaha" },
-		{ name: "Galle", value: "galle" },
-		{ name: "Jaffna", value: "jaffna" },
-		{ name: "Matara", value: "matara" },
-		{ name: "Badulla", value: "badulla" },
-		{ name: "Anuradhapura", value: "anuradhapura" },
-		{ name: "Polonnaruwa", value: "polonnaruwa" },
-		{ name: "Trincomalee", value: "trincomalee" },
-		{ name: "Ella", value: "ella" },
-		{ name: "Nuwara Eliya", value: "nuwara_eliya" },
-		{ name: "Hikkaduwa", value: "hikkaduwa" },
-		{ name: "Negombo", value: "negombo" },
-		{ name: "Kurunegala", value: "kurunegala" },
-	];
-
+export default function UpdateTrainSchedule({data , cl}){
 	const [trainName, settrainName] = useState("");
 	const [arrivalStation, setarrivalStation] = useState("");
 	const [departureStation, setdepartureStation] = useState("");
-	const [arrivalTime, setarrivalTime] = useState(moment().format('mm:hh'));
-	const [departureTime, setdepartureTime] = useState(moment().format('mm:hh'));
+	const [arrivalTime, setarrivalTime] = useState("");
+	const [departureTime, setdepartureTime] = useState("");
     const [isActive, setIsActive] = useState(true);
     const [isPublish, setIsPublish] = useState(true);
 
-	async function sendData(e) {
-		e.preventDefault();
+    // // const today = new Date().toISOString();
+    
+    useEffect(() => {
+        settrainName(data.trainName)
+        setarrivalStation(data.arrivalStation)
+        setdepartureStation(data.departureStation)
+        setarrivalTime(data.arrivalTime)
+        setdepartureTime(data.departureTime)
+    },[data]) //[] <- pass only one array at a time
 
-		const newTrainSchedule = {
-			trainName,
-			arrivalStation,
-			departureStation,
-			arrivalTime,
-			departureTime,
-			isActive,
-			isPublish,
-		};
+    async function sendData(e){
+        e.preventDefault();
 
-	// Send data to the backend
-		  try {
-			const response = await addTrainSchedules(newTrainSchedule); // Call your backend function
+        const updateTrainSchedule= {
+            trainName,
+            arrivalStation,
+            departureStation,
+            arrivalTime,
+            departureTime,
+        }
+
+        try {
+			const response = await updateTrainSchedules(updateTrainSchedule); // Call your backend function
 			// Handle success response here
 			Swal.fire({
 			  title: "Success!",
-			  text: "Train Schedule Details Added Successfully",
+			  text: "Train Schedule Details Updated Successfully",
 			  icon: "success",
 			  showConfirmButton: false,
 			  timer: 2000,
 			}).then(() => {
-			//   window.location.replace("/train-schedule/list");
+			//   window.location.replace("/all-employee-list");
 			});
 		  } catch (error) {
 			// Handle error response here
@@ -68,28 +55,25 @@ export default function AddTrainSchedule() {
 			  confirmButtonColor: "#1fc191",
 			});
 		  }
-	  }
+    };
 
-	return (
-		<div class="page-component-body">
-			<Header></Header>
+    return(
+        <div>
+                <Modal.Header closeButton >
+                    <Modal.Title>Update Train Schedules</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="px-4">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    
 			<div
 				style={{
 					display: "flex",
 					justifyContent: "center",
-					marginTop: 100,
+					marginTop: 50,
 				}}>
 				<div class="container input-main-form-emp pt-3">
 					<div class="container border-top">
-						<div class="row">
-							<div
-								class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center"
-								style={{ marginTop: 15, marginBottom: 8 }}>
-								<h3 style={{marginBottom: 50}}>
-									Create Train Schedules
-								</h3>
-							</div>
-						</div>
 						<div class="row">
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 								<form
@@ -98,6 +82,7 @@ export default function AddTrainSchedule() {
 									role="form"
 									onSubmit={sendData}
 								>
+									{/* <div className="row"> */}
 	
 										<div class="form-group col-md-6">
 											<input
@@ -111,10 +96,11 @@ export default function AddTrainSchedule() {
 												onChange={(e) => {
 													settrainName(
 														e.target.value,
-													); 
+													); // assign value
 												}}
 											/>
 										</div>
+									{/* </div> */}
 									<div className="row">
 										<div
 											class="form-group col-md-6"
@@ -138,10 +124,10 @@ export default function AddTrainSchedule() {
 												onChange={(e) => {
 													setarrivalStation(
 														e.target.value,
-													);
+													); // assign value
 												}}
 											>
-												{railwayStations.map(
+												{/* {railwayStations.map(
 													(station) => (
 														<option
 															key={
@@ -153,7 +139,7 @@ export default function AddTrainSchedule() {
 															{station.name}
 														</option>
 													),
-												)}
+												)} */}
 											</select>
 										</div>
 										<div
@@ -178,10 +164,10 @@ export default function AddTrainSchedule() {
 												onChange={(e) => {
 													setdepartureStation(
 														e.target.value,
-													);
+													); // assign value
 												}}
 											>
-												{railwayStations.map(
+												{/* {railwayStations.map(
 													(station) => (
 														<option
 															key={
@@ -193,7 +179,7 @@ export default function AddTrainSchedule() {
 															{station.name}
 														</option>
 													),
-												)}
+												)} */}
 											</select>
 										</div>
 									</div>
@@ -202,8 +188,9 @@ export default function AddTrainSchedule() {
 										<div
 											class="form-group col-md-6"
 											style={{ marginTop: 15 }}>
+											{/* <label class="form-label" for="Email">Email : </label> */}
 											<input
-												type="text"
+												type="email"
 												class="form-control formInput"
 												id="Email"
 												placeholder="Arrival Time"
@@ -212,13 +199,15 @@ export default function AddTrainSchedule() {
 												onChange={(e) => {
 													setarrivalTime(
 														e.target.value,
-													);
+													); //assign value
+													// validateEmail(e);
 												}}
 											/>
 										</div>
 										<div
 											class="form-group col-md-6"
 											style={{ marginTop: 15 }}>
+											{/* <label class="form-label" for="Phone">Phone : </label> */}
 											<input
 												type="text"
 												class="form-control formInput"
@@ -230,6 +219,7 @@ export default function AddTrainSchedule() {
 													setdepartureTime(
 														e.target.value,
 													);
+													// validateMobile(e);
 												}}
 											/>
 										</div>
@@ -268,6 +258,7 @@ export default function AddTrainSchedule() {
 													setIsActive(
 														e.target.value,
 													);
+													// {' '}
 												}}
 											/>
 											&nbsp;&nbsp; Inactive
@@ -280,9 +271,9 @@ export default function AddTrainSchedule() {
 											<br />
 											<input
 												type="radio"
-												id="isPublish"
-												name="isPublish"
-												value="isPublish"
+												id="isActive"
+												name="isActive"
+												value="Active"
 												required
 												onChange={(e) => {
 													setIsPublish(
@@ -302,26 +293,10 @@ export default function AddTrainSchedule() {
 													setIsPublish(
 														e.target.value,
 													);
+													// {' '}
 												}}
 											/>
 											&nbsp;&nbsp; Decline publishing
-										</div>
-									</div>
-
-									<div className="row mt-2 mb-3">
-										<div className="col py-3 text-center">
-											<button
-												type="submit"
-												className="btn btn-ok">
-												Add
-											</button>
-										</div>
-										<div className="col py-3 text-center">
-											<button
-												type="reset"
-												className="btn btn-reset">
-												Cancel
-											</button>
 										</div>
 									</div>
 								</form>
@@ -330,6 +305,26 @@ export default function AddTrainSchedule() {
 					</div>
 				</div>
 			</div>
-		</div>
-	);
+                                
+                                <div className="row mt-2 mb-3">
+                                    <div className="col py-3 text-center">
+                                        <button type="submit" className="btn btn-ok">
+                                            Update
+                                        </button>
+                                    </div>
+                                    <div className="col py-3 text-center">
+                                        <button type="reset" className="btn btn-reset">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+
+                    
+                        </div>
+                    </div>
+            </Modal.Body>
+        </div> 
+
+    )
+
 }
