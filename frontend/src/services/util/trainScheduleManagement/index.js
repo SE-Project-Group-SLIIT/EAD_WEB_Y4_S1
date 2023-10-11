@@ -1,7 +1,6 @@
 import axios from "axios";
 
-const BASE_PATH = "https://localhost:7241/api/Train";
-
+const BASE_PATH = "https://localhost:7241/api/TrainSchedule";
 
 export let viewAllTrainSchedules = async () => {
 	try {
@@ -23,10 +22,7 @@ export let addTrainSchedules = async () => {
 
 export let updateTrainSchedules = async (data) => {
 	try {
-		let value = await axios.put(
-			BASE_PATH,
-			data,
-		);
+		let value = await axios.put(BASE_PATH, data);
 		return value.data;
 	} catch (error) {
 		return error;

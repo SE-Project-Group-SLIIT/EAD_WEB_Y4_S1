@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { viewAllTrainSchedules } from "../../services/util/trainScheduleManagement";
+import React, { useEffect, useState } from "react";
 import Header from "../shared/Header";
 import { Modal } from "react-bootstrap";
-import UpdateTrainSchedule from "./updateTrainSchedule";
+import {
+	deleteTrain,
+	viewAllTrains,
+} from "../../services/util/trainManagement";
+import UpdateTrainPage from "./updateTrainForm";
+import Swal from "sweetalert2";
 
-const ActiveTrainScheduleList = () => {
-	// const [employees, setEmployees] = useState([]);
-	// const [showEmp, setShowEmp] = useState(false);
-	// const [modalEmp, setEmp] = useState([]);
-	const [trainSchedules, setTrainSchedules] = useState([]);
+export default function TrainListTable() {
+	const [trains, setTrains] = useState([]);
+
 	const [ModalEmpUpdate, setModalEmpUpdate] = useState([]);
 	const [ModalEmpUpdateConfirm, setModalEmpUpdateConfirm] =
 		useState(false);
@@ -17,32 +19,12 @@ const ActiveTrainScheduleList = () => {
 	const [ModalEmpDeleteConfirm, setModalEmpDeleteConfirm] =
 		useState(false);
 
-	const [ModalEmpActive, setModalEmpActive] = useState([]);
-	const [ModalEmpActiveConfirm, setModalEmpActiveConfirm] =
-		useState(false);
-
-		const openModalEmpUpdate = (data) => {
-			setModalEmpUpdate(data);
-			setModalEmpUpdateConfirm(true);
-		};
-
-		const openModalEmpDelete = (data) => {
-			console.log("delEmp");
-			setModalEmpDelete(data);
-			setModalEmpDeleteConfirm(true);
-		};
-
 	useEffect(() => {
-		async function getAllTrainSchedules() {
+		async function getAllTrains() {
 			try {
-				let respond = await viewAllTrainSchedules();
+				let respond = await viewAllTrains();
 				if (respond.data) {
-					// Filter the data to get only schedules with isActive = true
-					const activeTrainSchedules = respond.data.filter(
-						(schedule) => schedule.isActive === true,
-					);
-					setTrainSchedules(activeTrainSchedules);
-					console.log(activeTrainSchedules);
+					setTrains(respond.data);
 				} else {
 					console.log("error");
 				}
@@ -51,9 +33,36 @@ const ActiveTrainScheduleList = () => {
 			}
 		}
 
-		getAllTrainSchedules();
+		getAllTrains();
 	}, []);
 
+	console.log(trains);
+
+	const openModalEmpUpdate = (selectedTrain) => {
+		setModalEmpUpdate(selectedTrain);
+		setModalEmpUpdateConfirm(true);
+	};
+
+	const openModalEmpDelete = (selectedTrain) => {
+		setModalEmpDelete(selectedTrain);
+		setModalEmpDeleteConfirm(true);
+	};
+
+	const confirmDelete = async (data) => {
+		try {
+			await deleteTrain(data.trainId);
+			setModalEmpDeleteConfirm(false);
+			Swal.fire({
+				title: "Success!",
+				text: "Train Details Deleted Successfully",
+				icon: "success",
+				showConfirmButton: false,
+				timer: 2000,
+			}).then(() => {
+				window.location.replace("/train/list");
+			});
+		} catch (error) {}
+	};
 
 	return (
 		<div className="container pt-2">
@@ -67,31 +76,17 @@ const ActiveTrainScheduleList = () => {
 				<Header></Header>
 
 				<div style={{ width: 1800, marginLeft: 80 }}>
-					<div class="row table-head mt-3">
+					<div class="row table-head mt-4 mb-5">
 						<div class="col">
-							<h3 className="float-left ">
-								Active Train Schedules List
+							<h3 className="float-left">
+								Train List Details
 							</h3>
 						</div>
-						<a href="/train-schedule/add" class="float-right">
+						<a href="/train/add" class="float-right">
 							<button
 								class="btn btn-ok white"
 								style={{ marginRight: "25px" }}>
-								+ &nbsp; New Train Schedule
-							</button>
-						</a>
-						<a href="/train-schedule/list" class="float-right">
-							<button
-								class="btn btn-ok white"
-								style={{ marginRight: "25px" }}>
-								Train Schedules
-							</button>
-						</a>
-						<a
-							href="/train-schedule/list/publish"
-							class="float-right">
-							<button class="btn btn-ok white">
-								Publish Train Schedules
+								+ &nbsp; New Train
 							</button>
 						</a>
 					</div>
@@ -99,11 +94,6 @@ const ActiveTrainScheduleList = () => {
 					<table class="table table-hover">
 						<thead class="thead-dark">
 							<tr>
-								{/* <th
-									class="text-center"
-									style={{ width: "80px" }}>
-									Train ID
-								</th> */}
 								<th
 									class="text-center"
 									style={{ width: "105px" }}>
@@ -122,65 +112,71 @@ const ActiveTrainScheduleList = () => {
 								<th
 									class="text-center"
 									style={{ width: "120px" }}>
-									Arrival Time
-								</th>
-								<th
-									class="text-center"
-									style={{ width: "115px" }}>
-									Departure Time
+									Train Type
 								</th>
 								<th
 									class="text-center"
 									style={{ width: "155px" }}>
+									Destinations
+								</th>
+								<th
+									class="text-center"
+									style={{ width: "115px" }}>
 									Action
 								</th>
 							</tr>
 						</thead>
 						<tbody>
-							{trainSchedules.map((trainSchedule) => {
+							{trains.map((train) => {
 								return (
-									<tr>
-										<td class="text-center">
-											{trainSchedule.trainName}
+									<tr key={train.trainId}>
+										<td className="text-center">
+											{train.trainName}
 										</td>
-										<td class="text-center">
-											{trainSchedule.arrivalStation}
+										<td className="text-center">
+											{train.arrivalStation}
 										</td>
-										<td class="text-center">
-											{
-												trainSchedule.departureStation
-											}
+										<td className="text-center">
+											{train.departureStation}
 										</td>
-										<td class="text-center">
-											{/* {trainSchedule.arrivalTime} */}
-											{trainSchedule.arrivalTime.slice(11, 19)}
+										<td className="text-center">
+											{train.trainType}
 										</td>
-										<td class="text-center">
-											{/* {trainSchedule.departureTime} */}
-											{trainSchedule.departureTime.slice(11, 19)}
+										<td className="text-center">
+											<ul>
+												{train.trainStations.map(
+													(station, index) => (
+														<li key={index}>
+															{station}
+														</li>
+													),
+												)}
+											</ul>
 										</td>
-										<td class="text-center">
+										<td className="text-center">
 											<button
-												class="btn btn-warning btn-sm"
+												className="btn btn-warning btn-sm"
 												style={{
 													marginRight: "4px",
 												}}
 												onClick={() =>
 													openModalEmpUpdate(
-														trainSchedule,
+														train,
 													)
-												}
-											>
+												}>
 												Update
 											</button>
 											<button
+												className="btn btn-warning btn-sm"
+												style={{
+													marginRight: "4px",
+												}}
 												onClick={() =>
 													openModalEmpDelete(
-														trainSchedule,
+														train,
 													)
-												}
-												class="btn btn-danger btn-sm">
-												Cancel
+												}>
+												Delete
 											</button>
 										</td>
 									</tr>
@@ -190,26 +186,25 @@ const ActiveTrainScheduleList = () => {
 					</table>
 				</div>
 
-								{/* modal for update employee details */}
-								<Modal
+				<Modal
 					show={ModalEmpUpdateConfirm}
 					onHide={() => setModalEmpUpdateConfirm(false)}
 					size="lg"
 					aria-labelledby="contained-modal-title-vcenter"
 					centered>
-					<UpdateTrainSchedule
+					<UpdateTrainPage
 						data={ModalEmpUpdate}
 						onHide={() => setModalEmpUpdate(false)}
 					/>
 				</Modal>
-				{/* modal for delete employee details */}
+
 				<Modal
 					show={ModalEmpDeleteConfirm}
 					onHide={() => setModalEmpDeleteConfirm(false)}
 					size="md"
 					aria-labelledby="contained-modal-title-vcenter"
 					centered>
-					<Modal.Header closeButton>
+					<Modal.Header>
 						<Modal.Title>Confirm Cancellation</Modal.Title>
 					</Modal.Header>
 					<Modal.Body>
@@ -224,10 +219,9 @@ const ActiveTrainScheduleList = () => {
 								<button
 									type="submit"
 									className="btn btn-delete"
-									// onClick={() => {
-									// 	deleteEmployee(ModalEmpDelete);
-									// }}
-								>
+									onClick={() => {
+										confirmDelete(ModalEmpDelete);
+									}}>
 									Yes
 								</button>
 							</div>
@@ -248,5 +242,4 @@ const ActiveTrainScheduleList = () => {
 			</div>
 		</div>
 	);
-};
-export default ActiveTrainScheduleList;
+}

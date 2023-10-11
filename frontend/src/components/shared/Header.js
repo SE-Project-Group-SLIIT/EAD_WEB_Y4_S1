@@ -71,7 +71,7 @@ function Header(props) {
 							className="collapsed">
 							<a href="javascript:void(0)">
 								{" "}
-								<i className="fa fa-calendar fa-2x"></i>{" "}
+								<i className="fa fa-ticket fa-2x"></i>{" "}
 								<span className="nav-text">
 									Book Your Ticket
 								</span>{" "}
@@ -107,7 +107,7 @@ function Header(props) {
 							className="collapsed">
 							<a href="javascript:void(0)">
 								{" "}
-								<i className="fa fa-train fa-2x"></i>{" "}
+								<i className="fa fa-calendar fa-2x"></i>{" "}
 								<span className="nav-text">
 									Train Schedules
 								</span>{" "}
@@ -128,6 +128,42 @@ function Header(props) {
 									<i className="fa  fa-2x"></i>
 									<span class="nav-text">
 										Add Train Schedule
+									</span>
+								</Link>
+							</li>
+						</ul>
+
+						<li></li>
+					</li>
+					<hr></hr>
+					<li className="has-subnav">
+						<li
+							data-toggle="collapse"
+							data-target="#new4"
+							className="collapsed">
+							<a href="javascript:void(0)">
+								{" "}
+								<i className="fa fa-train fa-2x"></i>{" "}
+								<span className="nav-text">
+									Trains
+								</span>{" "}
+								<i className="fa fa-angle-right fa-animate fa-2x"></i>
+							</a>
+						</li>
+						<ul class="sub-menu collapse" id="new4">
+							<li class="has-subnav ">
+								<Link to="/train/list">
+									<i class="fa"></i>
+									<span className="nav-text">
+										Train List
+									</span>
+								</Link>
+							</li>
+							<li className="has-subnav">
+								<Link to="/train/add">
+									<i className="fa  fa-2x"></i>
+									<span class="nav-text">
+										Add Train
 									</span>
 								</Link>
 							</li>
