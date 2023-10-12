@@ -12,12 +12,15 @@ export default function AddTrainSchedule() {
 	const [departureStation, setdepartureStation] = useState("");
 	const [trainType, setTrainType] = useState("");
 	const [trainStations, setTrainStations] = useState([]);
-	const [arrivalTime, setarrivalTime] = useState();
+	const [arrivalTime, setarrivalTime] = useState(
+		moment().format("mm:hh"),
+	);
 	const [departureTime, setdepartureTime] = useState(
 		moment().format("mm:hh"),
 	);
+	const [scheduleDate, setscheduleDate] = useState(Date);
 	const [isActive, setIsActive] = useState(true);
-	const [isPublish, setIsPublish] = useState(true);
+	const [isPublished, setIsPublish] = useState(true);
 	const [selectedTrainData, setSelectedTrainData] = useState(null);
 	const [trainNames, setTrainNames] = useState([]);
 
@@ -35,25 +38,42 @@ export default function AddTrainSchedule() {
 		}
 
 		fetchTrainNames();
-	}, []); // The empty dependency array ensures this effect runs only once on component mount.
+	}, []);
 
 	async function sendData(e) {
 		e.preventDefault();
 
+		const formattedDepartureTime = moment(
+			departureTime,
+			"HH:mm",
+		).format("YYYY-MM-DDTHH:mm:ss");
+		const formattedArrivalTime = moment(arrivalTime, "HH:mm").format(
+			"YYYY-MM-DDTHH:mm:ss",
+		);
+
 		const newTrainSchedule = {
 			trainName,
-			arrivalStation,
-			departureStation,
-			arrivalTime,
-			departureTime,
+			arrivalStation: selectedTrainData
+				? selectedTrainData.arrivalStation
+				: arrivalStation,
+			departureStation: selectedTrainData
+				? selectedTrainData.departureStation
+				: departureStation,
+			trainType: selectedTrainData
+				? selectedTrainData.trainType
+				: trainType,
+			trainStations: selectedTrainData
+				? selectedTrainData.trainStations
+				: trainStations,
+			arrivalTime: formattedArrivalTime,
+			departureTime: formattedDepartureTime,
+			scheduleDate,
 			isActive,
-			isPublish,
+			isPublished: isPublished === "isPublished",
 		};
 
-		// Send data to the backend
 		try {
-			const response = await addTrainSchedules(newTrainSchedule); // Call your backend function
-			// Handle success response here
+			const response = await addTrainSchedules(newTrainSchedule);
 			Swal.fire({
 				title: "Success!",
 				text: "Train Schedule Details Added Successfully",
@@ -61,10 +81,9 @@ export default function AddTrainSchedule() {
 				showConfirmButton: false,
 				timer: 2000,
 			}).then(() => {
-				//   window.location.replace("/train-schedule/list");
+				window.location.replace("/train-schedule/list");
 			});
 		} catch (error) {
-			// Handle error response here
 			const msgerr = error.response.data.msg || "An error occurred";
 			Swal.fire({
 				icon: "warning",
@@ -80,11 +99,16 @@ export default function AddTrainSchedule() {
 		try {
 			const response = await viewAllTrains();
 			const selectedTrain = response.data.find(
-				(train) => train.name === selectedTrainName,
+				(train) => train.trainName === selectedTrainName,
 			);
 
 			if (selectedTrain) {
 				setSelectedTrainData(selectedTrain);
+				settrainName(selectedTrain.trainName);
+				setarrivalStation(selectedTrain.arrivalStation);
+				setdepartureStation(selectedTrain.departureStation);
+				setTrainType(selectedTrain.trainType);
+				setTrainStations(selectedTrain.trainStations);
 			} else {
 				setSelectedTrainData(null);
 			}
@@ -137,7 +161,6 @@ export default function AddTrainSchedule() {
 												id="Name"
 												name="Name"
 												tabindex="1"
-												required
 												onChange={
 													handleTrainSelection
 												}>
@@ -175,12 +198,7 @@ export default function AddTrainSchedule() {
 												id="Arrival"
 												placeholder="Arrival Station"
 												tabindex="5"
-												required
-												onChange={(e) => {
-													setarrivalStation(
-														e.target.value,
-													);
-												}}
+												value={arrivalStation}
 											/>
 										</div>
 										<div
@@ -201,12 +219,7 @@ export default function AddTrainSchedule() {
 												id="departure"
 												placeholder="Departure Station"
 												tabindex="5"
-												required
-												onChange={(e) => {
-													setdepartureStation(
-														e.target.value,
-													);
-												}}
+												value={departureStation}
 											/>
 										</div>
 									</div>
@@ -234,49 +247,111 @@ export default function AddTrainSchedule() {
 													id="type"
 													placeholder="Train Type"
 													tabindex="5"
-													required
-													// onChange={(e) => {
-													// 	setdepartureStation(
-													// 		e.target.value,
-													// 	);
-													// }}
+													value={trainType}
 												/>
 											</div>
 										</div>
 									</div>
 									<div className="row">
 										<div
-											class="form-group col-md-6"
-											style={{ marginTop: 15 }}>
+											style={{ marginTop: 18 }}
+											class="form-group col-md-12">
+											<label
+												style={{
+													float: "left",
+													marginLeft: 10,
+													fontWeight: 800,
+												}}
+												for="Name">
+												Destinations
+											</label>
+
 											<input
 												type="text"
-												class="form-control formInput"
+												class="form-control formInput col-md-18"
 												id="Email"
 												placeholder="Arrival Time"
 												tabindex="6"
-												required
-												onChange={(e) => {
+												value={trainStations}
+											/>
+										</div>
+									</div>
+									<div className="row">
+										<div
+											class="form-group col-md-7"
+											style={{ marginTop: 15 }}>
+											<label
+												style={{
+													float: "left",
+													marginLeft: 10,
+													fontWeight: 800,
+												}}
+												for="Schedule Date">
+												Schedule Date
+											</label>
+											<input
+												type="date"
+												id="scheduleDatePicker"
+												name="datePicker"
+												style={{ width: 230 }}
+												value={scheduleDate} // Set the value of the time picker to departureTime
+												onChange={(e) =>
+													setscheduleDate(
+														e.target.value,
+													)
+												}
+											/>
+										</div>
+									</div>
+									<div className="row">
+										<div
+											class="form-group col-md-6"
+											style={{ marginTop: 15 }}>
+											<label
+												style={{
+													float: "left",
+													marginLeft: 10,
+													fontWeight: 800,
+												}}
+												for="Arrival">
+												Arrival Time
+											</label>
+											<input
+												type="time"
+												id="timeArrivalPicker"
+												name="timePicker"
+												style={{ width: 130 }}
+												value={arrivalTime} // Set the value of the time picker to departureTime
+												onChange={(e) =>
 													setarrivalTime(
 														e.target.value,
-													);
-												}}
+													)
+												}
 											/>
 										</div>
 										<div
 											class="form-group col-md-6"
 											style={{ marginTop: 15 }}>
+											<label
+												style={{
+													float: "left",
+													marginLeft: 10,
+													fontWeight: 800,
+												}}
+												for="Departure">
+												Departure Time
+											</label>
 											<input
-												type="text"
-												class="form-control formInput"
-												id="Phone"
-												placeholder="Departure Time"
-												tabindex="5"
-												required
-												onChange={(e) => {
+												type="time"
+												id="timeDeparturePicker"
+												name="timePicker"
+												style={{ width: 130 }}
+												value={departureTime} // Set the value of the time picker to departureTime
+												onChange={(e) =>
 													setdepartureTime(
 														e.target.value,
-													);
-												}}
+													)
+												}
 											/>
 										</div>
 									</div>
@@ -294,11 +369,11 @@ export default function AddTrainSchedule() {
 												type="radio"
 												id="isActive"
 												name="isActive"
-												value="Active"
-												required
+												value={true}
 												onChange={(e) => {
 													setIsActive(
-														e.target.value,
+														e.target.value ===
+															"true",
 													);
 												}}
 											/>
@@ -308,11 +383,11 @@ export default function AddTrainSchedule() {
 												type="radio"
 												id="isActive"
 												name="isActive"
-												value="Inactive"
-												required
+												value={false}
 												onChange={(e) => {
 													setIsActive(
-														e.target.value,
+														e.target.value ===
+															"false",
 													);
 												}}
 											/>
@@ -326,13 +401,13 @@ export default function AddTrainSchedule() {
 											<br />
 											<input
 												type="radio"
-												id="isPublish"
-												name="isPublish"
-												value="isPublish"
-												required
+												id="isPublished"
+												name="isPublished"
+												value={true}
 												onChange={(e) => {
 													setIsPublish(
-														e.target.value,
+														e.target.value ===
+															"true",
 													);
 												}}
 											/>
@@ -340,13 +415,13 @@ export default function AddTrainSchedule() {
 											publishing&nbsp;&nbsp;&nbsp;&nbsp;
 											<input
 												type="radio"
-												id="isActive"
-												name="isActive"
-												value="Inactive"
-												required
+												id="isPublished"
+												name="isPublished"
+												value={false}
 												onChange={(e) => {
 													setIsPublish(
-														e.target.value,
+														e.target.value ===
+															"false",
 													);
 												}}
 											/>
