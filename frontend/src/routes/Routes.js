@@ -7,6 +7,8 @@ import ActiveTrainScheduleList from "../components/TrainScheduleManagement/activ
 import PublishTrainScheduleList from "../components/TrainScheduleManagement/publishtrainScheduleList";
 import UpdateTrainSchedule from "../components/TrainScheduleManagement/updateTrainSchedule";
 import AllTravelerList from "../components/TravelerManagement/allTravelers";
+import AddTravelerDetails from "../components/TravelerManagement/addTravelerDetails"
+import UpdateTravelerDetails from "../components/TravelerManagement/updateTravelerDetails"
 
 const PageRoutes = () => {
 	return (
@@ -49,7 +51,11 @@ const PageRoutes = () => {
 						/>
 						<Route
 							path="/traveler-profile/add"
-							element={<HomePage />}
+							element={<AddTravelerDetails />}
+						/>
+						<Route
+							path="/traveler-profile/update"
+							element={<UpdateTravelerDetails />}
 						/>
 						<Route path="/login" element={<HomePage />} />
 					</Routes>

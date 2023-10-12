@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Header from "../shared/Header";
-import {viewAllTravelerDetails} from "../../services/travelerService"
+import {viewAllTravelerDetails} from "../../services/util/travelerManagement/travelerService";
 
 export default function AllTravelerList() {
 
@@ -40,7 +40,7 @@ export default function AllTravelerList() {
                                     Traveler Details
                                 </h3>
                             </div>
-                            <a href="/train-schedule/add" class="float-right">
+                            <a href="/traveler-profile/add" class="float-right">
                                 <button
                                     class="btn btn-ok white"
                                     style={{ marginRight: "25px" }}>
@@ -81,13 +81,13 @@ export default function AllTravelerList() {
                                     <th
                                         class="text-center"
                                         style={{ width: "115px" }}>
-                                        First Name
+                                        Full Name
                                     </th>
-                                    <th
+                                    {/* <th
                                         class="text-center"
                                         style={{ width: "125px" }}>
                                         Last Name
-                                    </th>
+                                    </th> */}
                                     <th
                                         class="text-center"
                                         style={{ width: "120px" }}>
@@ -120,11 +120,11 @@ export default function AllTravelerList() {
 											{travelerDetail.nic}
 										</td>
 										<td class="text-center">
-											{travelerDetail.firstName}
+											{travelerDetail.fullName}
 										</td>
-										<td class="text-center">
+										{/* <td class="text-center">
 											{travelerDetail.lastName}
-										</td>
+										</td> */}
 										<td class="text-center">
 											{travelerDetail.email}
 										</td>
