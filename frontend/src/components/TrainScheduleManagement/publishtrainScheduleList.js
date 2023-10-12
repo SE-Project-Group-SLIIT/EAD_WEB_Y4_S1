@@ -5,10 +5,6 @@ import { Modal } from "react-bootstrap";
 import UpdateTrainSchedule from "./updateTrainSchedule";
 
 const PublishTrainScheduleList = () => {
-	// const [employees, setEmployees] = useState([]);
-	// const [showEmp, setShowEmp] = useState(false);
-	// const [modalEmp, setEmp] = useState([]);
-
 	const [ModalEmpUpdate, setModalEmpUpdate] = useState([]);
 	const [ModalEmpUpdateConfirm, setModalEmpUpdateConfirm] =
 		useState(false);
@@ -21,16 +17,16 @@ const PublishTrainScheduleList = () => {
 	const [ModalEmpActiveConfirm, setModalEmpActiveConfirm] =
 		useState(false);
 
-		const openModalEmpUpdate = (data) => {
-			setModalEmpUpdate(data);
-			setModalEmpUpdateConfirm(true);
-		};
+	const openModalEmpUpdate = (data) => {
+		setModalEmpUpdate(data);
+		setModalEmpUpdateConfirm(true);
+	};
 
-		const openModalEmpDelete = (data) => {
-			console.log("delEmp");
-			setModalEmpDelete(data);
-			setModalEmpDeleteConfirm(true);
-		};
+	const openModalEmpDelete = (data) => {
+		console.log("delEmp");
+		setModalEmpDelete(data);
+		setModalEmpDeleteConfirm(true);
+	};
 
 	const [trainSchedules, setTrainSchedules] = useState([]);
 
@@ -39,7 +35,6 @@ const PublishTrainScheduleList = () => {
 			try {
 				let respond = await viewAllTrainSchedules();
 				if (respond.data) {
-					// Filter the data to get only schedules with isActive = true
 					const publishedTrainSchedules = respond.data.filter(
 						(schedule) => schedule.isPublished === true,
 					);
@@ -148,12 +143,16 @@ const PublishTrainScheduleList = () => {
 											}
 										</td>
 										<td class="text-center">
-											{/* {trainSchedule.arrivalTime} */}
-											{trainSchedule.arrivalTime.slice(11, 19)}
+											{trainSchedule.arrivalTime.slice(
+												11,
+												19,
+											)}
 										</td>
 										<td class="text-center">
-											{/* {trainSchedule.departureTime} */}
-										{trainSchedule.departureTime.slice(11, 19)}
+											{trainSchedule.departureTime.slice(
+												11,
+												19,
+											)}
 										</td>
 
 										<td class="text-center">
@@ -166,8 +165,7 @@ const PublishTrainScheduleList = () => {
 													openModalEmpUpdate(
 														trainSchedule,
 													)
-												}
-											>
+												}>
 												Update
 											</button>
 											<button
@@ -186,8 +184,7 @@ const PublishTrainScheduleList = () => {
 						</tbody>
 					</table>
 				</div>
-								{/* modal for update employee details */}
-								<Modal
+				<Modal
 					show={ModalEmpUpdateConfirm}
 					onHide={() => setModalEmpUpdateConfirm(false)}
 					size="lg"

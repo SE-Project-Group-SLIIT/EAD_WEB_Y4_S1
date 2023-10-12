@@ -11,19 +11,34 @@ export let viewAllTrainSchedules = async () => {
 	}
 };
 
-export let addTrainSchedules = async () => {
+export let addTrainSchedules = async (newTrainScheduleData) => {
 	try {
-		let value = await axios.post(BASE_PATH);
-		return value;
+		const response = await axios.post(BASE_PATH, newTrainScheduleData);
+		return response.data;
 	} catch (error) {
 		return error;
 	}
 };
 
-export let updateTrainSchedules = async (data) => {
+export let updateTrainSchedules = async (trainScheduleId, updatedTrainScheduleData) => {
 	try {
-		let value = await axios.put(BASE_PATH, data);
-		return value.data;
+		const response = await axios.put(
+			`${BASE_PATH}/${trainScheduleId}`,
+			updatedTrainScheduleData,
+		);
+		return response.data;
+	} catch (error) {
+		return error;
+	}
+};
+
+export let cancelTrainSchedules = async (trainScheduleId, canceledTrainScheduleData) => {
+	try {
+		const response = await axios.put(
+			`${BASE_PATH}/${trainScheduleId}`,
+			canceledTrainScheduleData,
+		);
+		return response.data;
 	} catch (error) {
 		return error;
 	}
