@@ -6,9 +6,6 @@ import TrainScheduleList from "../components/TrainScheduleManagement/trainSchedu
 import ActiveTrainScheduleList from "../components/TrainScheduleManagement/activeTrainScheduleList";
 import PublishTrainScheduleList from "../components/TrainScheduleManagement/publishtrainScheduleList";
 import UpdateTrainSchedule from "../components/TrainScheduleManagement/updateTrainSchedule";
-
-
-
 import AllTravelerList from "../components/TravelerManagement/allTravelers";
 import AddTravelerDetails from "../components/TravelerManagement/addTravelerDetails";
 import UpdateTravelerDetails from "../components/TravelerManagement/updateTravelerDetails";
