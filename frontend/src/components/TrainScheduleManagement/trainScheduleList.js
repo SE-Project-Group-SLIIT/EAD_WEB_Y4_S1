@@ -40,8 +40,8 @@ export default function TrainScheduleList() {
 		getAllTrainSchedules();
 	}, []);
 
-	const openModalEmpUpdate = (data) => {
-		setModalEmpUpdate(data);
+	const openModalEmpUpdate = (selectedTrainSchedule) => {
+		setModalEmpUpdate(selectedTrainSchedule);
 		setModalEmpUpdateConfirm(true);
 	};
 
