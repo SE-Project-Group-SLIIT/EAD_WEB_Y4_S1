@@ -167,7 +167,7 @@ export default function TrainListTable() {
 												Update
 											</button>
 											<button
-												className="btn btn-warning btn-sm"
+												className="btn btn-danger btn-sm"
 												style={{
 													marginRight: "4px",
 												}}
