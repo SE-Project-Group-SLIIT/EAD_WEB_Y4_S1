@@ -5,9 +5,6 @@ import { Modal } from "react-bootstrap";
 import UpdateTrainSchedule from "./updateTrainSchedule";
 
 const ActiveTrainScheduleList = () => {
-	// const [employees, setEmployees] = useState([]);
-	// const [showEmp, setShowEmp] = useState(false);
-	// const [modalEmp, setEmp] = useState([]);
 	const [trainSchedules, setTrainSchedules] = useState([]);
 	const [ModalEmpUpdate, setModalEmpUpdate] = useState([]);
 	const [ModalEmpUpdateConfirm, setModalEmpUpdateConfirm] =
@@ -17,27 +14,22 @@ const ActiveTrainScheduleList = () => {
 	const [ModalEmpDeleteConfirm, setModalEmpDeleteConfirm] =
 		useState(false);
 
-	const [ModalEmpActive, setModalEmpActive] = useState([]);
-	const [ModalEmpActiveConfirm, setModalEmpActiveConfirm] =
-		useState(false);
+	const openModalEmpUpdate = (data) => {
+		setModalEmpUpdate(data);
+		setModalEmpUpdateConfirm(true);
+	};
 
-		const openModalEmpUpdate = (data) => {
-			setModalEmpUpdate(data);
-			setModalEmpUpdateConfirm(true);
-		};
-
-		const openModalEmpDelete = (data) => {
-			console.log("delEmp");
-			setModalEmpDelete(data);
-			setModalEmpDeleteConfirm(true);
-		};
+	const openModalEmpDelete = (data) => {
+		console.log("delEmp");
+		setModalEmpDelete(data);
+		setModalEmpDeleteConfirm(true);
+	};
 
 	useEffect(() => {
 		async function getAllTrainSchedules() {
 			try {
 				let respond = await viewAllTrainSchedules();
 				if (respond.data) {
-					// Filter the data to get only schedules with isActive = true
 					const activeTrainSchedules = respond.data.filter(
 						(schedule) => schedule.isActive === true,
 					);
@@ -53,7 +45,6 @@ const ActiveTrainScheduleList = () => {
 
 		getAllTrainSchedules();
 	}, []);
-
 
 	return (
 		<div className="container pt-2">
@@ -99,11 +90,6 @@ const ActiveTrainScheduleList = () => {
 					<table class="table table-hover">
 						<thead class="thead-dark">
 							<tr>
-								{/* <th
-									class="text-center"
-									style={{ width: "80px" }}>
-									Train ID
-								</th> */}
 								<th
 									class="text-center"
 									style={{ width: "105px" }}>
@@ -152,12 +138,16 @@ const ActiveTrainScheduleList = () => {
 											}
 										</td>
 										<td class="text-center">
-											{/* {trainSchedule.arrivalTime} */}
-											{trainSchedule.arrivalTime.slice(11, 19)}
+											{trainSchedule.arrivalTime.slice(
+												11,
+												19,
+											)}
 										</td>
 										<td class="text-center">
-											{/* {trainSchedule.departureTime} */}
-											{trainSchedule.departureTime.slice(11, 19)}
+											{trainSchedule.departureTime.slice(
+												11,
+												19,
+											)}
 										</td>
 										<td class="text-center">
 											<button
@@ -169,8 +159,7 @@ const ActiveTrainScheduleList = () => {
 													openModalEmpUpdate(
 														trainSchedule,
 													)
-												}
-											>
+												}>
 												Update
 											</button>
 											<button
@@ -190,8 +179,8 @@ const ActiveTrainScheduleList = () => {
 					</table>
 				</div>
 
-								{/* modal for update employee details */}
-								<Modal
+				{/* modal for update employee details */}
+				<Modal
 					show={ModalEmpUpdateConfirm}
 					onHide={() => setModalEmpUpdateConfirm(false)}
 					size="lg"
