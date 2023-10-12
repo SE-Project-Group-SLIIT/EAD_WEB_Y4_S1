@@ -6,9 +6,12 @@ import TrainScheduleList from "../components/TrainScheduleManagement/trainSchedu
 import ActiveTrainScheduleList from "../components/TrainScheduleManagement/activeTrainScheduleList";
 import PublishTrainScheduleList from "../components/TrainScheduleManagement/publishtrainScheduleList";
 import UpdateTrainSchedule from "../components/TrainScheduleManagement/updateTrainSchedule";
+
+
+
 import AllTravelerList from "../components/TravelerManagement/allTravelers";
-import AddTravelerDetails from "../components/TravelerManagement/addTravelerDetails"
-import UpdateTravelerDetails from "../components/TravelerManagement/updateTravelerDetails"
+import AddTravelerDetails from "../components/TravelerManagement/addTravelerDetails";
+import UpdateTravelerDetails from "../components/TravelerManagement/updateTravelerDetails";
 
 const PageRoutes = () => {
 	return (
@@ -36,6 +39,18 @@ const PageRoutes = () => {
 						<Route
 							path="/train-schedule/update"
 							element={<UpdateTrainSchedule />}
+						/>
+						<Route
+							path="/train/add"
+							element={<AddTrainPage />}
+						/>
+						<Route
+							path="/train/list"
+							element={<TrainListTable />}
+						/>
+						<Route
+							path="/train/update"
+							element={<UpdateTrainPage />}
 						/>
 						<Route
 							path="/train-reservation/list"
