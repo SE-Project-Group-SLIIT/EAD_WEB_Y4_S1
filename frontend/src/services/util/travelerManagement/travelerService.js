@@ -21,12 +21,21 @@ export let addTravelerDetails = async (newTraveler) => {
 	}
 };
 
-export let updateTravelerDetails = async (travelerNIC, updateTraveler) => {
+export let updateTraveler = async (travelerNIC, updateTraveler) => {
 	try {
 		console.log("awa1", updateTraveler);
 		let value = await axios.put(`${BASE_PATH}/${travelerNIC}`, updateTraveler);
 		console.log("awa2"+value);
 		return value.data;
+	} catch (error) {
+		return error;
+	}
+};
+
+export const deleteTraveler = async (travelerNIC) => {
+	try {
+		const response = await axios.delete(`${BASE_PATH}/${travelerNIC}`);
+		return response.data;
 	} catch (error) {
 		return error;
 	}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Header from "../shared/Header";
 import Swal from "sweetalert2";
-import {addTravelerDetails} from "../../services/util/travelerManagement/travelerService";
+import { addTravelerDetails } from "../../services/util/travelerManagement/travelerService";
 
 export default function AddTravelerDetails() {
 
@@ -20,8 +20,8 @@ export default function AddTravelerDetails() {
     const [IsActive, settravelerIsActive] = useState("");
 
     async function sendData(e) {
-		e.preventDefault();
-    
+        e.preventDefault();
+
         const newTraveler = {
             NIC,
             FullName,
@@ -32,28 +32,28 @@ export default function AddTravelerDetails() {
         };
 
         // Send data to the backend
-		  try {
+        try {
             console.log(newTraveler);
-			const response = await addTravelerDetails(newTraveler); // Call your backend function
-			// Handle success response here
-            console.log("response",response)
-			Swal.fire({
-			  title: "Success!",
-			  text: "Traveler Schedule Details Added Successfully",
-			  icon: "success",
-			  showConfirmButton: false,
-			  timer: 2000,
-			})
-		  } catch (error) {
-			// Handle error response here
-			const msgerr = error || "An error occurred";
-			Swal.fire({
-			  icon: "warning",
-			  title: "Oops...",
-			  text: `${msgerr}`,
-			  confirmButtonColor: "#1fc191",
-			});
-		  }
+            const response = await addTravelerDetails(newTraveler); // Call your backend function
+            // Handle success response here
+            console.log("response", response)
+            Swal.fire({
+                title: "Success!",
+                text: "Traveler Schedule Details Added Successfully",
+                icon: "success",
+                showConfirmButton: false,
+                timer: 2000,
+            })
+        } catch (error) {
+            // Handle error response here
+            const msgerr = error || "An error occurred";
+            Swal.fire({
+                icon: "warning",
+                title: "Oops...",
+                text: `${msgerr}`,
+                confirmButtonColor: "#1fc191",
+            });
+        }
     }
 
     return (
@@ -102,24 +102,24 @@ export default function AddTravelerDetails() {
                                         />
                                     </div>
 
-                                        <div
-                                            class="form-group col-md-6"
-                                            style={{ marginTop: 15 }}>
-                                            <input
-                                                type="text"
-                                                class="form-control formInput"
-                                                id="fullname"
-                                                placeholder="Full Name"
-                                                tabindex="2"
-                                                required
-                                                onChange={(e) => {
-                                                    settravelerFullname(
-                                                        e.target.value,
-                                                    );
-                                                }}
-                                            />
-                                        </div>
-                                        {/* <div
+                                    <div
+                                        class="form-group col-md-6"
+                                        style={{ marginTop: 15 }}>
+                                        <input
+                                            type="text"
+                                            class="form-control formInput"
+                                            id="fullname"
+                                            placeholder="Full Name"
+                                            tabindex="2"
+                                            required
+                                            onChange={(e) => {
+                                                settravelerFullname(
+                                                    e.target.value,
+                                                );
+                                            }}
+                                        />
+                                    </div>
+                                    {/* <div
                                             class="form-group col-md-6"
                                             style={{ marginTop: 15 }}>
                                             <input
@@ -137,41 +137,41 @@ export default function AddTravelerDetails() {
                                             />
                                         </div> */}
 
-                                        <div
-                                            class="form-group col-md-6"
-                                            style={{ marginTop: 15 }}>
-                                            <input
-                                                type="email"
-                                                class="form-control formInput"
-                                                id="email"
-                                                placeholder="Email"
-                                                tabindex="4"
-                                                required
-                                                onChange={(e) => {
-                                                    settravelerEmail(
-                                                        e.target.value,
-                                                    );
-                                                }}
-                                            />
-                                        </div>
-                                        <div
-                                            class="form-group col-md-6"
-                                            style={{ marginTop: 15 }}>
-                                            <input
-                                                type="tel"
-                                                class="form-control formInput"
-                                                id="phone"
-                                                placeholder="Mobile"
-                                                // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" 
-                                                tabindex="5"
-                                                required
-                                                onChange={(e) => {
-                                                    settravelerPhone(
-                                                        e.target.value,
-                                                    );
-                                                }}
-                                            />
-                                        </div>
+                                    <div
+                                        class="form-group col-md-6"
+                                        style={{ marginTop: 15 }}>
+                                        <input
+                                            type="email"
+                                            class="form-control formInput"
+                                            id="email"
+                                            placeholder="Email"
+                                            tabindex="4"
+                                            required
+                                            onChange={(e) => {
+                                                settravelerEmail(
+                                                    e.target.value,
+                                                );
+                                            }}
+                                        />
+                                    </div>
+                                    <div
+                                        class="form-group col-md-6"
+                                        style={{ marginTop: 15 }}>
+                                        <input
+                                            type="tel"
+                                            class="form-control formInput"
+                                            id="phone"
+                                            placeholder="Mobile"
+                                            // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" 
+                                            tabindex="5"
+                                            required
+                                            onChange={(e) => {
+                                                settravelerPhone(
+                                                    e.target.value,
+                                                );
+                                            }}
+                                        />
+                                    </div>
 
                                     <div
                                         className="row"
@@ -190,7 +190,7 @@ export default function AddTravelerDetails() {
                                                 required
                                                 onChange={(e) => {
                                                     settravelerIsActive(
-                                                       true,
+                                                        true,
                                                     );
                                                 }}
                                             />
@@ -200,17 +200,17 @@ export default function AddTravelerDetails() {
                                                 type="radio"
                                                 id="isActive"
                                                 name="isActive"
-                                                value = "false" 
+                                                value="false"
                                                 required
                                                 onChange={(e) => {
                                                     settravelerIsActive(
-                                                        true,
+                                                        false,
                                                     );
                                                 }}
                                             />
                                             &nbsp;&nbsp; Deactivate
                                         </div>
-                                        
+
                                     </div>
 
                                     <div className="row mt-2 mb-3">
@@ -231,6 +231,9 @@ export default function AddTravelerDetails() {
                                     </div>
                                 </form>
                             </div>
+                            {/* <div class="col-md-4">
+                                <img src="frontend/src/components/assests/images/travellerProfile.png" alt="Description of image" class="img-fluid" />
+                            </div> */}
                         </div>
                     </div>
                 </div>
