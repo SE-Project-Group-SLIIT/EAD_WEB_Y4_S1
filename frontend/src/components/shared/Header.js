@@ -70,11 +70,12 @@ function Header(props) {
 							data-target="#new2"
 							className="collapsed">
 							<a href="javascript:void(0)">
-								{" "}
+							<Link to="/train-details/search">
 								<i className="fa fa-ticket fa-2x"></i>{" "}
 								<span className="nav-text">
 									Book Your Ticket
-								</span>{" "}
+								</span>
+							</Link>
 								<i className="fa fa-angle-right fa-animate fa-2x"></i>
 							</a>
 						</li>

@@ -9,7 +9,7 @@ import UpdateTrainSchedule from "../components/TrainScheduleManagement/updateTra
 import AddTrainPage from "../components/trainManagement/trainAddForm";
 import TrainListTable from "../components/trainManagement/trainListTable";
 import UpdateTrainPage from "../components/trainManagement/updateTrainForm";
-
+import checkAvailableTrains from "../components/TicketBookingManagement/createBooking_1"
 const PageRoutes = () => {
 	return (
 		<div>
@@ -64,6 +64,10 @@ const PageRoutes = () => {
 						<Route
 							path="/traveler-profile/add"
 							element={<HomePage />}
+						/>
+						<Route
+							path="/train-details/search"
+							element={<checkAvailableTrains />}
 						/>
 						<Route path="/login" element={<HomePage />} />
 					</Routes>
