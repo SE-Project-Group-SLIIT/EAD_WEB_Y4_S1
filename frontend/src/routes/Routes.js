@@ -9,6 +9,7 @@ import UpdateTrainSchedule from "../components/TrainScheduleManagement/updateTra
 import AddTrainPage from "../components/trainManagement/trainAddForm";
 import TrainListTable from "../components/trainManagement/trainListTable";
 import UpdateTrainPage from "../components/trainManagement/updateTrainForm";
+import Login from "../components/UserManagement/loginRegister/login";
 
 const PageRoutes = () => {
 	return (
@@ -25,11 +26,11 @@ const PageRoutes = () => {
 							path="/train-schedule/add"
 							element={<AddTrainSchedule />}
 						/>
-							<Route
+						<Route
 							path="/train-schedule/list/active"
 							element={<ActiveTrainScheduleList />}
 						/>
-							<Route
+						<Route
 							path="/train-schedule/list/publish"
 							element={<PublishTrainScheduleList />}
 						/>
@@ -65,7 +66,8 @@ const PageRoutes = () => {
 							path="/traveler-profile/add"
 							element={<HomePage />}
 						/>
-						<Route path="/login" element={<HomePage />} />
+						<Route path="/login" element={<Login />} />
+
 					</Routes>
 				</div>
 			</BrowserRouter>
