@@ -3,6 +3,7 @@ import Header from "../shared/Header";
 import Swal from "sweetalert2";
 import { addTravelerDetails } from "../../services/util/travelerManagement/travelerService";
 
+
 export default function AddTravelerDetails() {
 
     // const [travelerNIC, settravelerNIC] = useState("");
@@ -232,7 +233,7 @@ export default function AddTravelerDetails() {
                                 </form>
                             </div>
                             {/* <div class="col-md-4">
-                                <img src="frontend/src/components/assests/images/travellerProfile.png" alt="Description of image" class="img-fluid" />
+                                <img src="%PUBLIC_URL%/travellerProfile.png" alt="Description of image" class="img-fluid" />
                             </div> */}
                         </div>
                     </div>

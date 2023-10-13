@@ -28,11 +28,11 @@ const PageRoutes = () => {
 							path="/train-schedule/add"
 							element={<AddTrainSchedule />}
 						/>
-						<Route
+							<Route
 							path="/train-schedule/list/active"
 							element={<ActiveTrainScheduleList />}
 						/>
-						<Route
+							<Route
 							path="/train-schedule/list/publish"
 							element={<PublishTrainScheduleList />}
 						/>
