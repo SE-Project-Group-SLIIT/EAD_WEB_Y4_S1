@@ -9,6 +9,11 @@ import UpdateTrainSchedule from "../components/TrainScheduleManagement/updateTra
 import AddTrainPage from "../components/trainManagement/trainAddForm";
 import TrainListTable from "../components/trainManagement/trainListTable";
 import UpdateTrainPage from "../components/trainManagement/updateTrainForm";
+import CheckAvailableTrainsPage from "../components/TicketBookingManagement/checkAvailableTrainsPage";
+import ReservationList from "../components/TicketBookingManagement/reservationList";
+import PreviousReservationList from "../components/TicketBookingManagement/previousReservationsList";
+import ViewAvailableTrainDerails from "../components/TicketBookingManagement/viewAvailableTrainDetails";
+import MakeReservationPage from "../components/TicketBookingManagement/makeReservationPage";
 
 const PageRoutes = () => {
 	return (
@@ -64,6 +69,30 @@ const PageRoutes = () => {
 						<Route
 							path="/traveler-profile/add"
 							element={<HomePage />}
+						/>
+						{/* <Route
+							path="/train-details/search"
+							element={<checkAvailableTrains />}
+						/> */}
+						<Route
+							path="/train-details/search"
+							element={<CheckAvailableTrainsPage />}
+						/>
+						<Route
+							path="/reservation-list"
+							element={<ReservationList />}
+						/>
+						<Route
+							path="/reservation-list-previous"
+							element={<PreviousReservationList />}
+						/>
+						<Route
+							path="/train-details/available"
+							element={<ViewAvailableTrainDerails />}
+						/>
+						<Route
+							path="/make-reservation"
+							element={<MakeReservationPage />}
 						/>
 						<Route path="/login" element={<HomePage />} />
 					</Routes>
