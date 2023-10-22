@@ -23,7 +23,7 @@ export let addTravelerDetails = async (newTraveler) => {
 
 export let updateTraveler = async (travelerNIC, updateTraveler) => {
 	try {
-		console.log("awa1", updateTraveler);
+		console.log("awa1", travelerNIC, updateTraveler);
 		let value = await axios.put(`${BASE_PATH}/${travelerNIC}`, updateTraveler);
 		console.log("awa2"+value);
 		return value.data;

@@ -13,12 +13,13 @@ export default function UpdateTravelerDetails({data, cl}){
     const [IsActive, settravelerIsActive] = useState("");
 
     useEffect(() => {
+		console.log("data",data);
         if(data){
-            settravelerNIC(data.NIC);
-            settravelerFullname(data.FullName);
-            settravelerEmail(data.Email);
-            settravelerPhone(data.PhoneNumber);
-            settravelerIsActive(data.IsActive);
+            settravelerNIC(data.nic);
+            settravelerFullname(data.fullName);
+            settravelerEmail(data.email);
+            settravelerPhone(data.phoneNumber);
+            settravelerIsActive(data.isActive);
         }
     }, [data]);
 
@@ -30,22 +31,23 @@ export default function UpdateTravelerDetails({data, cl}){
             FullName,
             Email,
             PhoneNumber,
-            IsActive: IsActive === true,
+            IsActive //: IsActive === true,
         };
 
         try {
+			console.log("data2",data.NIC);
 			const response = await updateTraveler(
-				data.NIC,
+				updateTravelerDetails.NIC,
 				updateTravelerDetails,
 			);
 			Swal.fire({
 				title: "Success!",
-				text: "Train Schedule Details Updated Successfully",
+				text: "Traveler Details Updated Successfully",
 				icon: "success",
 				showConfirmButton: false,
 				timer: 2000,
 			}).then(() => {
-				window.location.replace("/train-schedule/list");
+				window.location.replace("/traveler-profile/list");
 			});
 		} catch (error) {
 			const msgerr = error.response.data.msg || "An error occurred";
@@ -88,6 +90,9 @@ export default function UpdateTravelerDetails({data, cl}){
 										placeholder="Train Name"
 										tabindex="5"
 										value={FullName}
+										onChange={(e) =>
+											settravelerFullname(e.target.value)
+										}
 									/>
 								</div>
 							</div>
@@ -144,7 +149,36 @@ export default function UpdateTravelerDetails({data, cl}){
 							
 							<div className="row" style={{ marginTop: 15 }}>
 								<div class="form-group col-md-6">
-									<label for="Gender">
+									<label for="Status" style={{
+											float: "left",
+											marginLeft: 10,
+											fontWeight: 800,
+										}}>
+										Traveler Status{" "}
+									</label>
+									<br />
+									<div class="form-check form-check-inline">
+										<input class="" type="radio" name="inlineRadioOptions" id="inlineRadio1" checked={IsActive === true} 
+											onChange={(e) => {
+												settravelerIsActive(
+													true,
+											);
+										}}/>
+										<label class="form-check-label" for="inlineRadio1"> &nbsp;&nbsp; Active</label>
+									</div> &nbsp;&nbsp;
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" checked={IsActive === false} 
+											onChange={(e) => {
+												settravelerIsActive(
+													false,
+												);
+											}}
+										/>
+										<label class="form-check-label" for="inlineRadio2"> &nbsp; Inactive</label>
+									</div>
+
+
+									{/* <label for="Status">
 										Traveler Status{" "}
 									</label>
 									<br />
@@ -172,7 +206,7 @@ export default function UpdateTravelerDetails({data, cl}){
 											);
 										}}
 									/>
-									&nbsp;&nbsp; Deactivate
+									&nbsp;&nbsp; Deactivate */}
 								</div>
 								
 							</div>

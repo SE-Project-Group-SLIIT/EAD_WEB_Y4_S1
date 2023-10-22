@@ -2,6 +2,7 @@ import { useState } from "react";
 import Header from "../shared/Header";
 import Swal from "sweetalert2";
 import { addTravelerDetails } from "../../services/util/travelerManagement/travelerService";
+import travelerimg from "../assests/images/travellerProfile.png"
 
 
 export default function AddTravelerDetails() {
@@ -77,16 +78,17 @@ export default function AddTravelerDetails() {
                                 </h3>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <form
-                                    id="contact-form"
-                                    class="form"
-                                    role="form"
-                                    onSubmit={sendData}
-                                >
+                        <form
+                            id="contact-form"
+                            class="form"
+                            role="form"
+                            onSubmit={sendData}
+                        >
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 
-                                    <div class="form-group col-md-6">
+
+                                    <div class="form-group col-md-12">
                                         <input
                                             type="text"
                                             class="form-control formInput"
@@ -104,7 +106,7 @@ export default function AddTravelerDetails() {
                                     </div>
 
                                     <div
-                                        class="form-group col-md-6"
+                                        class="form-group col-md-12"
                                         style={{ marginTop: 15 }}>
                                         <input
                                             type="text"
@@ -139,7 +141,7 @@ export default function AddTravelerDetails() {
                                         </div> */}
 
                                     <div
-                                        class="form-group col-md-6"
+                                        class="form-group col-md-12"
                                         style={{ marginTop: 15 }}>
                                         <input
                                             type="email"
@@ -156,7 +158,7 @@ export default function AddTravelerDetails() {
                                         />
                                     </div>
                                     <div
-                                        class="form-group col-md-6"
+                                        class="form-group col-md-12"
                                         style={{ marginTop: 15 }}>
                                         <input
                                             type="tel"
@@ -177,7 +179,7 @@ export default function AddTravelerDetails() {
                                     <div
                                         className="row"
                                         style={{ marginTop: 15 }}>
-                                        <div class="form-group col-md-6">
+                                        <div class="form-group col-md-12">
                                             {/* <label for="Gender">
                                                 Is this an Active Schedule
                                                 ?{" "}
@@ -196,7 +198,7 @@ export default function AddTravelerDetails() {
                                                 }}
                                             />
                                             &nbsp;&nbsp;
-                                            Activate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            Active&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             <input
                                                 type="radio"
                                                 id="isActive"
@@ -209,10 +211,28 @@ export default function AddTravelerDetails() {
                                                     );
                                                 }}
                                             />
-                                            &nbsp;&nbsp; Deactivate
+                                            &nbsp;&nbsp; Inactive
                                         </div>
 
                                     </div>
+
+                                    {/* <div className="row">
+                                        <div className="col-md-6 text-center">
+                                        <button type="submit" class="btn btn-warning">Add</button> */}
+                                    {/* <button
+                                                type="submit"
+                                                className="btn btn-ok">
+                                                Add
+                                            </button> */}
+                                    {/* </div>
+                                        <div className="col-md-6 text-center">
+                                            <button
+                                                type="reset"
+                                                className="btn btn-reset">
+                                                Cancel
+                                            </button>
+                                        </div>
+                                    </div> */}
 
                                     <div className="row mt-2 mb-3">
                                         <div className="col py-3 text-center">
@@ -222,6 +242,16 @@ export default function AddTravelerDetails() {
                                                 Add
                                             </button>
                                         </div>
+
+                                    </div>
+
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <img src={travelerimg} alt="Description of image" class="img-fluid" style={{
+                                        marginTop: 20,
+                                        marginBottom: 28
+                                    }} />
+                                    <div className="row mt-2 mb-3">
                                         <div className="col py-3 text-center">
                                             <button
                                                 type="reset"
@@ -230,12 +260,9 @@ export default function AddTravelerDetails() {
                                             </button>
                                         </div>
                                     </div>
-                                </form>
+                                </div>
                             </div>
-                            {/* <div class="col-md-4">
-                                <img src="%PUBLIC_URL%/travellerProfile.png" alt="Description of image" class="img-fluid" />
-                            </div> */}
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>

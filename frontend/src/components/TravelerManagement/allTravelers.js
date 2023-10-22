@@ -169,7 +169,7 @@ export default function AllTravelerList() {
                                                 {travelerDetail.phoneNumber}
                                             </td>
                                             <td class="text-center">
-                                                {travelerDetail.isActive}
+                                                {travelerDetail.isActive === true ? "Active" : "Inactive"}
                                             </td>
                                             <td class="text-center">
                                                 <button
@@ -188,7 +188,7 @@ export default function AllTravelerList() {
                                                 <button
                                                     onClick={() =>
                                                         openModalTravelerDelete(
-                                                            travelerDetail,
+                                                            travelerDetail
                                                         )
                                                     }
                                                     class="btn btn-danger btn-sm">
