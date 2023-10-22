@@ -23,21 +23,21 @@ export default function checkAvailableTrains() {
         { name: "Kurunegala", value: "kurunegala" },
     ];
 
-    const [bookingDate, setBookingDate] = useState(null);
-    const [arrivalStation, setArrivalStation] = useState('');
-    const [departureStation, setDepartureStation] = useState('');
-    const [trains, setTrains] = useState([]);
-    const [error, setError] = useState(null);
+    // const [bookingDate, setBookingDate] = useState(null);
+    // const [arrivalStation, setArrivalStation] = useState('');
+    // const [departureStation, setDepartureStation] = useState('');
+    // const [trains, setTrains] = useState([]);
+    // const [error, setError] = useState(null);
 
     async function sendData(e) {
         e.preventDefault();
         try {
             const availableTrains = await fetchAvailableTrains({
-                bookingDate,
-                arrivalStation,
-                departureStation
+                // bookingDate,
+                // arrivalStation,
+                // departureStation
             });
-            setTrains(availableTrains);
+            // setTrains(availableTrains);
             Swal.fire({
                 title: "Success!",
                 text: "Train Details Fetched Successfully",
@@ -52,7 +52,7 @@ export default function checkAvailableTrains() {
                 text: `${errorMsg}`,
                 confirmButtonColor: "#1fc191",
             });
-            setError(errorMsg);
+            // setError(errorMsg);
         }
     }
     return (
@@ -101,12 +101,12 @@ export default function checkAvailableTrains() {
                                                 id="scheduleDatePicker"
                                                 name="datePicker"
                                                 style={{ width: 230 }}
-                                                value={scheduleDate} // Set the value of the time picker to departureTime
-                                                onChange={(e) =>
-                                                    setBookingDate(
-                                                        e.target.value,
-                                                    )
-                                                }
+                                                // value={scheduleDate} // Set the value of the time picker to departureTime
+                                                // onChange={(e) =>
+                                                //     setBookingDate(
+                                                //         e.target.value,
+                                                //     )
+                                                // }
                                             />
                                         </div>
                                     </div>
@@ -130,11 +130,12 @@ export default function checkAvailableTrains() {
                                             placeholder="Arrival Station"
                                             tabindex="1"
                                             required
-                                            onChange={(e) => {
-                                                setArrivalStation(
-                                                    e.target.value,
-                                                );
-                                            }}>
+                                            // onChange={(e) => {
+                                            //     setArrivalStation(
+                                            //         e.target.value,
+                                            //     );
+                                            // }}
+                                            >
                                             {railwayStations.map(
                                                 (station) => (
                                                     <option
@@ -166,11 +167,12 @@ export default function checkAvailableTrains() {
                                                 placeholder="Departure Station"
                                                 tabindex="1"
                                                 required
-                                                onChange={(e) => {
-                                                    setDepartureStation(
-                                                        e.target.value,
-                                                    );
-                                                }}>
+                                                // onChange={(e) => {
+                                                //     setDepartureStation(
+                                                //         e.target.value,
+                                                //     );
+                                                // }}
+                                                >
                                                 {railwayStations.map(
                                                     (station) => (
                                                         <option

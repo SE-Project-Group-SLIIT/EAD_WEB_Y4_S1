@@ -6,9 +6,9 @@ export let fetchAvailableTrains  = async () => {
 	try {
         const response = await axios.get('https://your-api-url/api/Train/SearchAvailableTrains', {
             params: {
-                bookingDate,
-                arrivalStation,
-                departureStation
+                // bookingDate,
+                // arrivalStation,
+                // departureStation
             }
         });
         return response.data; // List of available trains
