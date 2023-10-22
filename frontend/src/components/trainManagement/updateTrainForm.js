@@ -2,7 +2,7 @@
 import { React, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { updateTrainDetails } from "../../services/util/trainManagement";
-import Header from "../shared/Header";
+import { Modal } from "react-bootstrap";
 
 export default function UpdateTrainPage({ data, cl }) {
 	const railwayStations = [
@@ -122,28 +122,13 @@ export default function UpdateTrainPage({ data, cl }) {
 
 	return (
 		<div>
-			<div class="page-component-body">
-				<Header></Header>
-				<div
-					style={{
-						display: "flex",
-						justifyContent: "center",
-					}}>
+			<Modal.Header>
+				<Modal.Title>Update Train Form</Modal.Title>
+			</Modal.Header>
+			<Modal.Body>
 					{showForm && (
-						<div class="container input-main-form-emp pt-3">
-							<div class="container border-top">
-								<div class="row">
-									<div
-										class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center"
-										style={{
-											marginTop: 15,
-											marginBottom: 8,
-										}}>
-										<h3 style={{ marginBottom: 50 }}>
-											Update Train Form
-										</h3>
-									</div>
-								</div>
+				<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 								<form
 									id="contact-form"
 									class="form"
@@ -396,8 +381,7 @@ export default function UpdateTrainPage({ data, cl }) {
 							</div>
 						</div>
 					)}
-				</div>
-			</div>{" "}
+				</Modal.Body>
 		</div>
 	);
 }

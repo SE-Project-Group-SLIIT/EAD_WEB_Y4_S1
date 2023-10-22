@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_PATH = "https://localhost:7241/api/TrainSchedule";
+const BASE_PATH = "http://localhost:7241/api/TrainSchedule";
 
 export let viewAllTrainSchedules = async () => {
 	try {
@@ -32,14 +32,23 @@ export let updateTrainSchedules = async (trainScheduleId, updatedTrainScheduleDa
 	}
 };
 
-export let cancelTrainSchedules = async (trainScheduleId, canceledTrainScheduleData) => {
+export let cancelTrainSchedules = async (trainScheduleId) => {
 	try {
 		const response = await axios.put(
-			`${BASE_PATH}/${trainScheduleId}`,
-			canceledTrainScheduleData,
+			`${BASE_PATH}/cancel/${trainScheduleId}`,
 		);
 		return response.data;
 	} catch (error) {
 		return error;
 	}
 };
+
+// const cancelTrainSchedule = async (id) => {
+//     try {
+//         await axios.put(`/api/trainSchedule/cancel/${id}`);
+//         // Handle success, e.g., refresh the list of train schedules
+//     } catch (error) {
+//         console.error('Error cancelling train schedule:', error);
+//         // Handle error
+//     }
+// };

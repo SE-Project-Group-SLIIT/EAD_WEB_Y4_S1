@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_PATH = "https://localhost:7241/api/Train";
+const BASE_PATH = "http://localhost:7241/api/Train";
 
 export let viewAllTrains = async () => {
 	try {

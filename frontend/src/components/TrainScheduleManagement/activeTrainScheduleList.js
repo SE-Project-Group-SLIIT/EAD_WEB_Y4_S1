@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { viewAllTrainSchedules } from "../../services/util/trainScheduleManagement";
+import {
+	viewAllTrainSchedules,
+	cancelTrainSchedules,
+} from "../../services/util/trainScheduleManagement";
 import Header from "../shared/Header";
 import { Modal } from "react-bootstrap";
 import UpdateTrainSchedule from "./updateTrainSchedule";
+import Swal from "sweetalert2";
 
 const ActiveTrainScheduleList = () => {
 	const [trainSchedules, setTrainSchedules] = useState([]);
@@ -19,9 +23,8 @@ const ActiveTrainScheduleList = () => {
 		setModalEmpUpdateConfirm(true);
 	};
 
-	const openModalEmpDelete = (data) => {
-		console.log("delEmp");
-		setModalEmpDelete(data);
+	const openModalEmpDelete = (selectedTrainSchedule) => {
+		setModalEmpDelete(selectedTrainSchedule);
 		setModalEmpDeleteConfirm(true);
 	};
 
@@ -46,6 +49,35 @@ const ActiveTrainScheduleList = () => {
 		getAllTrainSchedules();
 	}, []);
 
+	const handleCancelTrainSchedule = async (selectedTrainSchedule) => {
+		if (selectedTrainSchedule) {
+			try {
+				await cancelTrainSchedules(
+					selectedTrainSchedule.trainScheduleId,
+				);
+				Swal.fire({
+					title: "Success!",
+					text: "Train Schedule Cancelled Successfully",
+					icon: "success",
+					showConfirmButton: false,
+					timer: 2000,
+				}).then(() => {
+					setModalEmpDeleteConfirm(false);
+					window.location.replace("/train-schedule/list");
+				});
+			} catch (error) {
+				const msgerr =
+					error.response.data.msg || "An error occurred";
+				Swal.fire({
+					icon: "warning",
+					title: "Oops...",
+					text: `${msgerr}`,
+					confirmButtonColor: "#1fc191",
+				});
+			}
+		}
+	};
+
 	return (
 		<div className="container pt-2">
 			<div
@@ -61,7 +93,7 @@ const ActiveTrainScheduleList = () => {
 					<div class="row table-head mt-3">
 						<div class="col">
 							<h3 className="float-left ">
-								Active Train Schedules List
+								Active Train Schedules
 							</h3>
 						</div>
 						<a href="/train-schedule/add" class="float-right">
@@ -125,7 +157,7 @@ const ActiveTrainScheduleList = () => {
 						<tbody>
 							{trainSchedules.map((trainSchedule) => {
 								return (
-									<tr>
+									<tr style={{ fontWeight: 600 }}>
 										<td class="text-center">
 											{trainSchedule.trainName}
 										</td>
@@ -153,7 +185,9 @@ const ActiveTrainScheduleList = () => {
 											<button
 												class="btn btn-warning btn-sm"
 												style={{
-													marginRight: "4px",
+													fontWeight: 600,
+													marginRight: "6px",
+													color: "brown",
 												}}
 												onClick={() =>
 													openModalEmpUpdate(
@@ -163,13 +197,26 @@ const ActiveTrainScheduleList = () => {
 												Update
 											</button>
 											<button
+												style={{
+													fontWeight: 600,
+													color: "white",
+													backgroundColor:
+														trainSchedule.isCancelled
+															? "#E30B5C"
+															: "#191970",
+												}}
+												disabled={
+													trainSchedule.isCancelled
+												}
 												onClick={() =>
 													openModalEmpDelete(
 														trainSchedule,
 													)
 												}
-												class="btn btn-danger btn-sm">
-												Cancel
+												class="btn btn-sm">
+												{trainSchedule.isCancelled
+													? "Already Cancelled"
+													: "Cancel Schedule"}
 											</button>
 										</td>
 									</tr>
@@ -211,12 +258,14 @@ const ActiveTrainScheduleList = () => {
 						<div className="row">
 							<div className="col -6">
 								<button
+									style={{ fontWeight: 600 }}
 									type="submit"
 									className="btn btn-delete"
-									// onClick={() => {
-									// 	deleteEmployee(ModalEmpDelete);
-									// }}
-								>
+									onClick={() => {
+										handleCancelTrainSchedule(
+											ModalEmpDelete,
+										);
+									}}>
 									Yes
 								</button>
 							</div>
@@ -226,6 +275,7 @@ const ActiveTrainScheduleList = () => {
 									setModalEmpDeleteConfirm(false)
 								}>
 								<button
+									style={{ fontWeight: 600 }}
 									type="reset"
 									className="btn btn-reset">
 									No

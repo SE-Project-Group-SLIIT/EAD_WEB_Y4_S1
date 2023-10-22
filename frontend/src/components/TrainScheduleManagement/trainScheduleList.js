@@ -1,27 +1,21 @@
 import React, { useEffect, useState } from "react";
 import Header from "../shared/Header";
-import { viewAllTrainSchedules } from "../../services/util/trainScheduleManagement";
+import {
+	viewAllTrainSchedules,
+	cancelTrainSchedules,
+} from "../../services/util/trainScheduleManagement";
 import { Modal } from "react-bootstrap";
 import UpdateTrainSchedule from "./updateTrainSchedule";
+import Swal from "sweetalert2";
 
 export default function TrainScheduleList() {
-	// const [search, setSearch] = useState("");
-
 	const [trainSchedules, setTrainSchedules] = useState([]);
-
 	const [ModalEmpUpdate, setModalEmpUpdate] = useState([]);
 	const [ModalEmpUpdateConfirm, setModalEmpUpdateConfirm] =
 		useState(false);
-
 	const [ModalEmpDelete, setModalEmpDelete] = useState([]);
 	const [ModalEmpDeleteConfirm, setModalEmpDeleteConfirm] =
 		useState(false);
-
-	const [ModalEmpActive, setModalEmpActive] = useState([]);
-	const [ModalEmpActiveConfirm, setModalEmpActiveConfirm] =
-		useState(false);
-
-	console.log(trainSchedules);
 
 	useEffect(() => {
 		async function getAllTrainSchedules() {
@@ -45,16 +39,38 @@ export default function TrainScheduleList() {
 		setModalEmpUpdateConfirm(true);
 	};
 
-	const openModalEmpDelete = (data) => {
-		console.log("delEmp");
-		setModalEmpDelete(data);
+	const openModalEmpDelete = (selectedTrainSchedule) => {
+		setModalEmpDelete(selectedTrainSchedule);
 		setModalEmpDeleteConfirm(true);
 	};
 
-	const openModalEmpActivate = (data) => {
-		console.log("delEmp");
-		setModalEmpActive(data);
-		setModalEmpActiveConfirm(true);
+	const handleCancelTrainSchedule = async (selectedTrainSchedule) => {
+		if (selectedTrainSchedule) {
+			try {
+				await cancelTrainSchedules(
+					selectedTrainSchedule.trainScheduleId,
+				);
+				Swal.fire({
+					title: "Success!",
+					text: "Train Schedule Cancelled Successfully",
+					icon: "success",
+					showConfirmButton: false,
+					timer: 2000,
+				}).then(() => {
+					setModalEmpDeleteConfirm(false);
+					window.location.replace("/train-schedule/list");
+				});
+			} catch (error) {
+				const msgerr =
+					error.response.data.msg || "An error occurred";
+				Swal.fire({
+					icon: "warning",
+					title: "Oops...",
+					text: `${msgerr}`,
+					confirmButtonColor: "#1fc191",
+				});
+			}
+		}
 	};
 
 	return (
@@ -68,10 +84,12 @@ export default function TrainScheduleList() {
 				}}>
 				<Header></Header>
 
-				<div style={{ width: 1800, marginLeft: 80 }}>
+				<div style={{ width: 2000, marginLeft: 80 }}>
 					<div class="row table-head mt-4 mb-5">
 						<div class="col">
-							<h3 className="float-left">Train Schedules</h3>
+							<h3 className="float-left">
+								All Train Schedules
+							</h3>
 						</div>
 						<a href="/train-schedule/add" class="float-right">
 							<button
@@ -135,8 +153,9 @@ export default function TrainScheduleList() {
 						</thead>
 						<tbody>
 							{trainSchedules.map((trainSchedule) => {
+								console.log(trainSchedule.isCancelled);
 								return (
-									<tr>
+									<tr style={{ fontWeight: 600 }}>
 										<td class="text-center">
 											{trainSchedule.trainName}
 										</td>
@@ -149,19 +168,25 @@ export default function TrainScheduleList() {
 											}
 										</td>
 										<td class="text-center">
-											{/* {trainSchedule.arrivalTime} */}
-											{trainSchedule.arrivalTime.slice(11, 19)}
+											{trainSchedule.arrivalTime.slice(
+												11,
+												19,
+											)}
 										</td>
 										<td class="text-center">
-											{/* {trainSchedule.departureTime} */}
-											{trainSchedule.departureTime.slice(11, 19)}
+											{trainSchedule.departureTime.slice(
+												11,
+												19,
+											)}
 										</td>
 
 										<td class="text-center">
 											<button
 												class="btn btn-warning btn-sm"
 												style={{
-													marginRight: "4px",
+													fontWeight: 600,
+													marginRight: "6px",
+													color: "brown",
 												}}
 												onClick={() =>
 													openModalEmpUpdate(
@@ -171,13 +196,26 @@ export default function TrainScheduleList() {
 												Update
 											</button>
 											<button
+												style={{
+													fontWeight: 600,
+													color: "white",
+													backgroundColor:
+														trainSchedule.isCancelled
+															? "#E30B5C"
+															: "#191970",
+												}}
+												disabled={
+													trainSchedule.isCancelled
+												}
 												onClick={() =>
 													openModalEmpDelete(
 														trainSchedule,
 													)
 												}
-												class="btn btn-danger btn-sm">
-												Cancel
+												class="btn btn-sm">
+												{trainSchedule.isCancelled
+													? "Already Cancelled"
+													: "Cancel Schedule"}
 											</button>
 										</td>
 									</tr>
@@ -207,11 +245,11 @@ export default function TrainScheduleList() {
 					size="md"
 					aria-labelledby="contained-modal-title-vcenter"
 					centered>
-					<Modal.Header closeButton>
+					<Modal.Header>
 						<Modal.Title>Confirm Cancellation</Modal.Title>
 					</Modal.Header>
 					<Modal.Body>
-						<p>
+						<p style={{ fontWeight: 600 }}>
 							Are you sure you want to cancel this train
 							schedule ?
 						</p>
@@ -220,12 +258,14 @@ export default function TrainScheduleList() {
 						<div className="row">
 							<div className="col -6">
 								<button
+									style={{ fontWeight: 600 }}
 									type="submit"
 									className="btn btn-delete"
-									// onClick={() => {
-									// 	deleteEmployee(ModalEmpDelete);
-									// }}
-								>
+									onClick={() => {
+										handleCancelTrainSchedule(
+											ModalEmpDelete,
+										);
+									}}>
 									Yes
 								</button>
 							</div>
@@ -235,6 +275,7 @@ export default function TrainScheduleList() {
 									setModalEmpDeleteConfirm(false)
 								}>
 								<button
+									style={{ fontWeight: 600 }}
 									type="reset"
 									className="btn btn-reset">
 									No
