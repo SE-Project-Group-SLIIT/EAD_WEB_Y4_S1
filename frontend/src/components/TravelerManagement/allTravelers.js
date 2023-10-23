@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../shared/Header";
 import { viewAllTravelerDetails, deleteTraveler } from "../../services/util/travelerManagement/travelerService";
 import UpdateTravelerDetails from "./updateTravelerDetails";
+import ViewTravelerDetails from "./viewTravelerDetails"
 import Swal from "sweetalert2";
 import { Modal } from "react-bootstrap";
 
@@ -17,6 +18,10 @@ export default function AllTravelerList() {
     const [ModalTravelerDeleteConfirm, setModalTravelerDeleteConfirm] =
         useState(false);
 
+    const [ModalTravelerView, setModalTravelerView] = useState([]);
+	const [ModalTravelerViewConfirm, setModalTravelerViewConfirm] =
+		useState(false);
+      
     useEffect(() => {
         async function getAllTravelerDetails() {
             try {
@@ -34,6 +39,10 @@ export default function AllTravelerList() {
         getAllTravelerDetails();
     }, []);
 
+    const handleRowClick = (travelerDetail) => {
+        openModalTravelerView(travelerDetail);
+    };
+
     const openModalTravelerUpdate = (selectedTraveler) => {
         setModalTravelerUpdate(selectedTraveler);
         setModalTravelerUpdateConfirm(true);
@@ -44,21 +53,26 @@ export default function AllTravelerList() {
         setModalTravelerDeleteConfirm(true);
     };
 
-    const confirmDelete = async (data) => {
-		try {
-			await deleteTraveler(data.nic);
-			setModalTravelerDeleteConfirm(false);
-			Swal.fire({
-				title: "Success!",
-				text: "Train Details Deleted Successfully",
-				icon: "success",
-				showConfirmButton: false,
-				timer: 2000,
-			}).then(() => {
-				window.location.replace("/train/list");
-			});
-		} catch (error) {}
+    const openModalTravelerView = (selectedTraveler) => {
+		setModalTravelerView(selectedTraveler);
+		setModalTravelerViewConfirm(true);
 	};
+
+    const confirmDelete = async (data) => {
+        try {
+            await deleteTraveler(data.nic);
+            setModalTravelerDeleteConfirm(false);
+            Swal.fire({
+                title: "Success!",
+                text: "Traveler Details Deleted Successfully!",
+                icon: "success",
+                showConfirmButton: false,
+                timer: 2000,
+            }).then(() => {
+                window.location.replace("/traveler-profile/list");
+            });
+        } catch (error) { }
+    };
 
     return (
         <div>
@@ -84,22 +98,7 @@ export default function AllTravelerList() {
                                     + &nbsp; New Traveler
                                 </button>
                             </a>
-                            {/* <a
-							href="/train-schedule/list/active"
-							class="float-right">
-							<button
-								class="btn btn-ok white"
-								style={{ marginRight: "25px" }}>
-								Active Travelers
-							</button>
-						</a>
-						<a
-							href="/train-schedule/list/publish"
-							class="float-right">
-							<button class="btn btn-ok white">
-                            Publish Train Schedules
-							</button>
-						</a> */}
+
                         </div>
 
                         <table class="table table-hover">
@@ -151,7 +150,7 @@ export default function AllTravelerList() {
 
                                 {travelerDetails.map((travelerDetail, index) => {
                                     return (
-                                        <tr>
+                                        <tr  onClick={() => handleRowClick(travelerDetail)} style={{ cursor: 'pointer' }}>
                                             <th scope='row'>{index + 1}</th>
                                             <td class="text-center">
                                                 {travelerDetail.nic}
@@ -177,20 +176,18 @@ export default function AllTravelerList() {
                                                     style={{
                                                         marginRight: "4px",
                                                     }}
-                                                    onClick={() =>
-                                                        openModalTravelerUpdate(
-                                                            travelerDetail,
-                                                        )
-                                                    }
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();  // Stop event propagation
+                                                        openModalTravelerUpdate(travelerDetail);
+                                                      }}
                                                 >
                                                     Update
                                                 </button>
                                                 <button
-                                                    onClick={() =>
-                                                        openModalTravelerDelete(
-                                                            travelerDetail
-                                                        )
-                                                    }
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();  // Stop event propagation
+                                                        openModalTravelerDelete(travelerDetail);
+                                                      }}
                                                     class="btn btn-danger btn-sm">
                                                     Delete
                                                 </button>
@@ -202,6 +199,17 @@ export default function AllTravelerList() {
                             </tbody>
                         </table>
                     </div>
+                    <Modal
+					show={ModalTravelerViewConfirm}
+					onHide={() => setModalTravelerViewConfirm(false)}
+					size="md"
+					aria-labelledby="contained-modal-title-vcenter"
+					centered>
+					<ViewTravelerDetails
+						data={ModalTravelerView}
+						onHide={() => setModalTravelerView(false)}
+					/>
+				    </Modal>
                     <Modal
                         show={ModalTravelerUpdateConfirm}
                         onHide={() => setModalTravelerUpdateConfirm(false)}

@@ -17,7 +17,7 @@ export let addTravelerDetails = async (newTraveler) => {
 		let value = await axios.post(BASE_PATH, newTraveler);
 		return value.data;
 	} catch (error) {
-		return error;
+		return Promise.reject(error); 
 	}
 };
 

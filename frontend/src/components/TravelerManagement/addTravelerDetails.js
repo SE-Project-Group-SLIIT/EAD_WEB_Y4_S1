@@ -3,7 +3,7 @@ import Header from "../shared/Header";
 import Swal from "sweetalert2";
 import { addTravelerDetails } from "../../services/util/travelerManagement/travelerService";
 import travelerimg from "../assests/images/travellerProfile.png"
-
+import axios from 'axios';
 
 export default function AddTravelerDetails() {
 
@@ -33,30 +33,110 @@ export default function AddTravelerDetails() {
             IsActive,
         };
 
-        // Send data to the backend
         try {
-            console.log(newTraveler);
-            const response = await addTravelerDetails(newTraveler); // Call your backend function
-            // Handle success response here
-            console.log("response", response)
+            const response = await addTravelerDetails(newTraveler);
+            console.log("Traveler details added successfully", response);
+            // Handle success here (e.g., show success message, navigate to another page, etc.)
             Swal.fire({
                 title: "Success!",
                 text: "Traveler Schedule Details Added Successfully",
                 icon: "success",
                 showConfirmButton: false,
                 timer: 2000,
-            })
-        } catch (error) {
-            // Handle error response here
-            const msgerr = error || "An error occurred";
-            Swal.fire({
-                icon: "warning",
-                title: "Oops...",
-                text: `${msgerr}`,
-                confirmButtonColor: "#1fc191",
+            }).then(() => {
+                window.location.replace("/traveler-profile/list");
             });
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                if (error.response?.status === 409) {
+                    // Handle 409 Conflict here (duplicate NIC)
+                    console.error("Error adding traveler details", error);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "A traveler with the same NIC already exists.",
+                        confirmButtonColor: "#1fc191",
+                    }).then(() => {
+                        window.location.reload();
+                      });
+                } else {
+                    // Handle other Axios errors here
+                    console.error("An unexpected error occurred", error);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "An unexpected error occurred. Please try again later.",
+                        confirmButtonColor: "#1fc191",
+                    });
+                }
+            } else {
+                // Handle non-Axios errors here
+                console.error("An unexpected error occurred", error);
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "An unexpected error occurred. Please try again later.",
+                    confirmButtonColor: "#1fc191",
+                });
+            }
         }
+        
+        
+        
+        
+        
+        
+        // Send data to the backend
+        // try {
+        //     console.log(newTraveler);
+        //     const response = await addTravelerDetails(newTraveler); // Call your backend function
+        //     console.log("res",response)
+        //     if(axios.isAxiosError(error)){
+        //         Swal.fire({
+        //             icon: "error",
+        //             title: "Oops...",
+        //             text: "A traveler with the same NIC already exists.",
+        //             confirmButtonColor: "#1fc191",
+        //         });
+        //     }
+            // else{
+            //Handle success response here
+            // Swal.fire({
+            //     title: "Success!",
+            //     text: "Traveler Schedule Details Added Successfully",
+            //     icon: "success",
+            //     showConfirmButton: false,
+            //     timer: 2000,
+            // }).then(() => {
+            //     window.location.replace("/traveler-profile/list");
+            // });
+            // }
+         
+        // } catch (error) {
+        //     const errorMessage = error.response?.data?.message || "An error occurred";
+        //     console.error("Error caught:", errorMessage);
+
+        //     if (errorMessage.includes("A traveler with the same NIC already exists.")) {
+        //         // Show a specific error message for duplicate NIC
+        //         Swal.fire({
+        //             icon: "error",
+        //             title: "Oops...",
+        //             text: "A traveler with the same NIC already exists.",
+        //             confirmButtonColor: "#1fc191",
+        //         });
+        //     } else {
+        //         // Show a generic error message for other errors
+        //         Swal.fire({
+        //             icon: "warning",
+        //             title: "Oops...",
+        //             text: `${errorMessage}`,
+        //             confirmButtonColor: "#1fc191",
+        //         });
+        //     }
+        // }
+
     }
+
 
     return (
         <div class="page-component-body">
