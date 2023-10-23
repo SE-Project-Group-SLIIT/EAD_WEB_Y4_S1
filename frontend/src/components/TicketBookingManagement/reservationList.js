@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import Header from "../shared/Header";
 import { Modal } from "react-bootstrap";
-import {
-	deleteTrain,
-	viewAllTrains,
-} from "../../services/util/trainManagement";
-import UpdateTrainPage from "../trainManagement/updateTrainForm";
 import Swal from "sweetalert2";
+import {
+	cancelReservation,
+	viewAllBookings,
+} from "../../services/util/ticketBookingManagement/bookingService";
+import Header from "../shared/Header";
+import UpdateTrainPage from "../trainManagement/updateTrainForm";
 
 export default function ReservationList() {
-	const [trains, setTrains] = useState([]);
+	const [existingBookings, setExistingBookings] = useState([]);
 
 	const [ModalEmpUpdate, setModalEmpUpdate] = useState([]);
 	const [ModalEmpUpdateConfirm, setModalEmpUpdateConfirm] =
@@ -20,11 +20,21 @@ export default function ReservationList() {
 		useState(false);
 
 	useEffect(() => {
-		async function getAllTrains() {
+		async function getAllExistingBookings() {
 			try {
-				let respond = await viewAllTrains();
-				if (respond.data) {
-					setTrains(respond.data);
+				const response = await viewAllBookings();
+				if (response.data) {
+					const currentDate = new Date();
+					const isoString = currentDate.toISOString();
+
+					const pastBookings = response.data.filter(
+						(booking) => {
+							const travelerDate = booking.travelDate;
+							return travelerDate > isoString;
+						},
+					);
+
+					setExistingBookings(pastBookings);
 				} else {
 					console.log("error");
 				}
@@ -33,35 +43,44 @@ export default function ReservationList() {
 			}
 		}
 
-		getAllTrains();
+		getAllExistingBookings();
 	}, []);
-
-	console.log(trains);
 
 	const openModalEmpUpdate = (selectedTrain) => {
 		setModalEmpUpdate(selectedTrain);
 		setModalEmpUpdateConfirm(true);
 	};
 
-	const openModalEmpDelete = (selectedTrain) => {
-		setModalEmpDelete(selectedTrain);
+	const openModalEmpDelete = (selectedreservation) => {
+		setModalEmpDelete(selectedreservation);
 		setModalEmpDeleteConfirm(true);
 	};
 
-	const confirmDelete = async (data) => {
-		try {
-			await deleteTrain(data.trainId);
-			setModalEmpDeleteConfirm(false);
-			Swal.fire({
-				title: "Success!",
-				text: "Train Details Deleted Successfully",
-				icon: "success",
-				showConfirmButton: false,
-				timer: 2000,
-			}).then(() => {
-				window.location.replace("/train/list");
-			});
-		} catch (error) {}
+	const handleCancelReservation = async (selectedreservation) => {
+		if (selectedreservation) {
+			try {
+				await cancelReservation(selectedreservation.bookingId);
+				Swal.fire({
+					title: "Success!",
+					text: "Reservation Cancelled Successfully",
+					icon: "success",
+					showConfirmButton: false,
+					timer: 2000,
+				}).then(() => {
+					setModalEmpDeleteConfirm(false);
+					window.location.replace("/reservation-list");
+				});
+			} catch (error) {
+				const msgerr =
+					error.response.data.msg || "An error occurred";
+				Swal.fire({
+					icon: "warning",
+					title: "Oops...",
+					text: `${msgerr}`,
+					confirmButtonColor: "#1fc191",
+				});
+			}
+		}
 	};
 
 	return (
@@ -82,14 +101,18 @@ export default function ReservationList() {
 								Reservation Details
 							</h3>
 						</div>
-						<a href="/train-details/search" class="float-right">
+						<a
+							href="/train-details/search"
+							class="float-right">
 							<button
 								class="btn btn-ok white"
 								style={{ marginRight: "25px" }}>
 								+ &nbsp; Make Reservation
 							</button>
 						</a>
-						<a href="/reservation-list-previous" class="float-right">
+						<a
+							href="/reservation-list-previous"
+							class="float-right">
 							<button
 								class="btn btn-ok white"
 								style={{ marginRight: "25px" }}>
@@ -103,98 +126,148 @@ export default function ReservationList() {
 							<tr>
 								<th
 									class="text-center"
-									style={{ width: "105px" }}>
+									style={{ width: "125px" }}>
 									Train Name
 								</th>
 								<th
 									class="text-center"
 									style={{ width: "115px" }}>
-									Arrives
+									Booking Date
 								</th>
 								<th
 									class="text-center"
 									style={{ width: "125px" }}>
-									Departs
+									Reference ID
 								</th>
 								<th
 									class="text-center"
 									style={{ width: "120px" }}>
-									Train Type
+									Travel Date
 								</th>
-                                <th
+								<th
 									class="text-center"
 									style={{ width: "100px" }}>
 									No of Seats
 								</th>
 								<th
 									class="text-center"
-									style={{ width: "155px" }}>
-									Traveler Date
+									style={{ width: "115px" }}>
+									Status
 								</th>
 								<th
 									class="text-center"
-									style={{ width: "155px" }}>
+									style={{ width: "250px" }}>
 									Action
 								</th>
 							</tr>
 						</thead>
 						<tbody>
-							{trains.map((train) => {
+							{existingBookings.map((existingBooking) => {
+								const travelDate =
+									existingBooking.travelDate;
+								const currentDate = new Date();
+								const isoString =
+									currentDate.toISOString();
+
+								const dateDifference =
+									new Date(travelDate) - currentDate;
+
+								const daysDifference =
+									dateDifference / (1000 * 60 * 60 * 24);
+
+								const isAtLeast5DaysBefore =
+									daysDifference >= 5;
+
 								return (
-									<tr key={train.trainId}>
+									<tr key={existingBooking.trainId}>
 										<td className="text-center">
-											{train.trainName}
+											{existingBooking.trainName}
 										</td>
 										<td className="text-center">
-											{train.arrivalStation}
+											{existingBooking.bookingDate.slice(
+												0,
+												10,
+											)}
 										</td>
 										<td className="text-center">
-											{train.departureStation}
+											{existingBooking.travelerId}
 										</td>
 										<td className="text-center">
-											{train.trainType}
-										</td>
-                                        <td className="text-center">
-											{/* {train.trainType} */}
-                                            02
-										</td>
-										<td className="text-center">
-											2023/11/05
-											{/* <ul>
-												{train.trainStations.map(
-													(station, index) => (
-														<li key={index}>
-															{station}
-														</li>
-													),
-												)}
-											</ul> */}
+											{existingBooking.travelDate.slice(
+												0,
+												10,
+											)}
 										</td>
 										<td className="text-center">
-											<button
-												className="btn btn-warning btn-sm"
-												style={{
-													marginRight: "4px",
-												}}
-												onClick={() =>
-													openModalEmpUpdate(
-														train,
-													)
-												}>
-												Update
-											</button>
-											<button
-												className="btn btn-danger btn-sm"
-												style={{
-													marginRight: "4px",
-												}}
-												onClick={() =>
-													openModalEmpDelete(
-														train,
-													)
-												}>
-												Cancel
-											</button>
+											{
+												existingBooking.numberOfPassengers
+											}
+										</td>
+										<td className="text-center">
+											{existingBooking.status}
+										</td>
+										<td className="text-center">
+											{existingBooking.status ===
+											"Cancelled" ? (
+												<p
+													style={{
+														color: "red",
+													}}>
+													Already Cancelled this
+													reservation
+												</p>
+											) : (
+												<div>
+													{!isAtLeast5DaysBefore ? (
+														<p
+															style={{
+																color: "brown",
+															}}>
+															Update time
+															period is over
+														</p>
+													) : (
+														<button
+															className="btn btn-warning btn-sm"
+															style={{
+																marginRight:
+																	"4px",
+															}}
+															onClick={() =>
+																openModalEmpUpdate(
+																	existingBooking,
+																)
+															}>
+															Update
+														</button>
+													)}
+
+													{!isAtLeast5DaysBefore ? (
+														<p
+															style={{
+																color: "blue",
+															}}>
+															Cancellation
+															time period is
+															over
+														</p>
+													) : (
+														<button
+															className="btn btn-danger btn-sm"
+															style={{
+																marginRight:
+																	"4px",
+															}}
+															onClick={() =>
+																openModalEmpDelete(
+																	existingBooking,
+																)
+															}>
+															Cancel
+														</button>
+													)}
+												</div>
+											)}
 										</td>
 									</tr>
 								);
@@ -237,7 +310,9 @@ export default function ReservationList() {
 									type="submit"
 									className="btn btn-delete"
 									onClick={() => {
-										confirmDelete(ModalEmpDelete);
+										handleCancelReservation(
+											ModalEmpDelete,
+										);
 									}}>
 									Yes
 								</button>
