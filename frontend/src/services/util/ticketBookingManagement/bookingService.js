@@ -1,18 +1,23 @@
 import axios from "axios";
 
-const BASE_PATH = "";
+const BASE_PATH = "http://localhost:7241/api/TicketBooking";
 
-export let fetchAvailableTrains  = async () => {
+export let viewAllBookings = async () => {
 	try {
-        const response = await axios.get('https://your-api-url/api/Train/SearchAvailableTrains', {
-            params: {
-                // bookingDate,
-                // arrivalStation,
-                // departureStation
-            }
-        });
-        return response.data; // List of available trains
-    } catch (error) {
-        throw error; // Rethrow the error to be handled by the calling function/component
-    }
+		let value = await axios.get(BASE_PATH);
+		return value;
+	} catch (error) {
+		return error;
+	}
+};
+
+export let cancelReservation = async (bookingId) => {
+	try {
+		const response = await axios.put(
+			`${BASE_PATH}/cancel/${bookingId}`,
+		);
+		return response.data;
+	} catch (error) {
+		return error;
+	}
 };
