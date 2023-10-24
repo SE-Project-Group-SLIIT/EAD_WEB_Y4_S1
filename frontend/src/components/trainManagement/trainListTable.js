@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Header from "../shared/Header";
 import { Modal } from "react-bootstrap";
-import {
-	deleteTrain,
-	viewAllTrains,
-} from "../../services/util/trainManagement";
+import { viewAllTrains } from "../../services/util/trainManagement";
 import UpdateTrainPage from "./updateTrainForm";
-import Swal from "sweetalert2";
+import ViewSelectedTrainDetailsPage from "./viewSelectedTrainDetails";
 
 export default function TrainListTable() {
 	const [trains, setTrains] = useState([]);
@@ -15,8 +12,8 @@ export default function TrainListTable() {
 	const [ModalEmpUpdateConfirm, setModalEmpUpdateConfirm] =
 		useState(false);
 
-	const [ModalEmpDelete, setModalEmpDelete] = useState([]);
-	const [ModalEmpDeleteConfirm, setModalEmpDeleteConfirm] =
+	const [ModalEmpView, setModalEmpView] = useState([]);
+	const [ModalEmpViewConfirm, setModalEmpViewConfirm] =
 		useState(false);
 
 	useEffect(() => {
@@ -43,26 +40,26 @@ export default function TrainListTable() {
 		setModalEmpUpdateConfirm(true);
 	};
 
-	const openModalEmpDelete = (selectedTrain) => {
-		setModalEmpDelete(selectedTrain);
-		setModalEmpDeleteConfirm(true);
+	const openModalEmpView = (selectedTrain) => {
+		setModalEmpView(selectedTrain);
+		setModalEmpViewConfirm(true);
 	};
 
-	const confirmDelete = async (data) => {
-		try {
-			await deleteTrain(data.trainId);
-			setModalEmpDeleteConfirm(false);
-			Swal.fire({
-				title: "Success!",
-				text: "Train Details Deleted Successfully",
-				icon: "success",
-				showConfirmButton: false,
-				timer: 2000,
-			}).then(() => {
-				window.location.replace("/train/list");
-			});
-		} catch (error) {}
-	};
+	// const confirmDelete = async (data) => {
+	// 	try {
+	// 		await deleteTrain(data.trainId);
+	// 		setModalEmpViewConfirm(false);
+	// 		Swal.fire({
+	// 			title: "Success!",
+	// 			text: "Train Details Deleted Successfully",
+	// 			icon: "success",
+	// 			showConfirmButton: false,
+	// 			timer: 2000,
+	// 		}).then(() => {
+	// 			window.location.replace("/train/list");
+	// 		});
+	// 	} catch (error) {}
+	// };
 
 	return (
 		<div className="container pt-2">
@@ -129,7 +126,9 @@ export default function TrainListTable() {
 						<tbody>
 							{trains.map((train) => {
 								return (
-									<tr key={train.trainId}>
+									<tr
+										key={train.trainId}
+										style={{ fontWeight: 600 }}>
 										<td className="text-center">
 											{train.trainName}
 										</td>
@@ -158,6 +157,8 @@ export default function TrainListTable() {
 												className="btn btn-warning btn-sm"
 												style={{
 													marginRight: "4px",
+													fontWeight: 600,
+													color: "brown",
 												}}
 												onClick={() =>
 													openModalEmpUpdate(
@@ -167,16 +168,18 @@ export default function TrainListTable() {
 												Update
 											</button>
 											<button
-												className="btn btn-danger btn-sm"
+												className="btn btn-sm"
 												style={{
 													marginRight: "4px",
+													backgroundColor:
+														"#4CBB17",
+													fontWeight: 600,
+													color: "white",
 												}}
 												onClick={() =>
-													openModalEmpDelete(
-														train,
-													)
+													openModalEmpView(train)
 												}>
-												Delete
+												View
 											</button>
 										</td>
 									</tr>
@@ -199,45 +202,15 @@ export default function TrainListTable() {
 				</Modal>
 
 				<Modal
-					show={ModalEmpDeleteConfirm}
-					onHide={() => setModalEmpDeleteConfirm(false)}
+					show={ModalEmpViewConfirm}
+					onHide={() => setModalEmpViewConfirm(false)}
 					size="md"
 					aria-labelledby="contained-modal-title-vcenter"
 					centered>
-					<Modal.Header>
-						<Modal.Title>Confirm Cancellation</Modal.Title>
-					</Modal.Header>
-					<Modal.Body>
-						<p>
-							Are you sure you want to cancel this train
-							schedule ?
-						</p>
-					</Modal.Body>
-					<Modal.Footer>
-						<div className="row">
-							<div className="col -6">
-								<button
-									type="submit"
-									className="btn btn-delete"
-									onClick={() => {
-										confirmDelete(ModalEmpDelete);
-									}}>
-									Yes
-								</button>
-							</div>
-							<div
-								className="col-6 text-right"
-								onClick={() =>
-									setModalEmpDeleteConfirm(false)
-								}>
-								<button
-									type="reset"
-									className="btn btn-reset">
-									No
-								</button>
-							</div>
-						</div>
-					</Modal.Footer>
+					<ViewSelectedTrainDetailsPage
+						data={ModalEmpView}
+						onHide={() => setModalEmpView(false)}
+					/>
 				</Modal>
 			</div>
 		</div>

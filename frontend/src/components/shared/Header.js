@@ -70,17 +70,18 @@ function Header(props) {
 							data-target="#new2"
 							className="collapsed">
 							<a href="javascript:void(0)">
-								{" "}
+							{/* <Link to="/train-details/search"> */}
 								<i className="fa fa-ticket fa-2x"></i>{" "}
 								<span className="nav-text">
 									Book Your Ticket
-								</span>{" "}
+								</span>
+							{/* </Link> */}
 								<i className="fa fa-angle-right fa-animate fa-2x"></i>
 							</a>
 						</li>
 						<ul className="sub-menu collapse" id="new2">
 							<li className="has-subnav">
-								<Link to="/train-reservation/list">
+								<Link to="/reservation-list">
 									<i className="fa  fa-2x"></i>
 									<span className="nav-text">
 										{" "}
@@ -89,7 +90,7 @@ function Header(props) {
 								</Link>
 							</li>
 							<li className="has-subnav ">
-								<Link to="/train-reservation/add">
+								<Link to="/train-details/search">
 									<i className="fa"></i>
 									<span className="nav-text">
 										Add Reservation

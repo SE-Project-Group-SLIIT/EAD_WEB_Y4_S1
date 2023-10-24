@@ -68,8 +68,8 @@ export default function AddTrainSchedule() {
 			arrivalTime: formattedArrivalTime,
 			departureTime: formattedDepartureTime,
 			scheduleDate,
-			isActive,
-			isPublished: isPublished === "isPublished",
+			isActive: isActive,
+			isPublished: isPublished,
 		};
 
 		try {
@@ -115,6 +115,18 @@ export default function AddTrainSchedule() {
 		} catch (error) {
 			console.error("Error fetching train data", error);
 		}
+	};
+
+	const handleActiveChange = (e) => {
+		setIsActive(e.target.value === "true");
+	};
+
+	const handlePublishChange = (e) => {
+		setIsPublish(e.target.value === "true");
+	};
+
+	const handleClose = () => {
+		window.location.replace("/train-schedule/list");
 	};
 
 	return (
@@ -370,12 +382,10 @@ export default function AddTrainSchedule() {
 												id="isActive"
 												name="isActive"
 												value={true}
-												onChange={(e) => {
-													setIsActive(
-														e.target.value ===
-															"true",
-													);
-												}}
+												onChange={
+													handleActiveChange
+												}
+												checked={isActive}
 											/>
 											&nbsp;&nbsp;
 											Active&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -384,12 +394,10 @@ export default function AddTrainSchedule() {
 												id="isActive"
 												name="isActive"
 												value={false}
-												onChange={(e) => {
-													setIsActive(
-														e.target.value ===
-															"false",
-													);
-												}}
+												onChange={
+													handleActiveChange
+												}
+												checked={!isActive}
 											/>
 											&nbsp;&nbsp; Inactive
 										</div>
@@ -404,12 +412,10 @@ export default function AddTrainSchedule() {
 												id="isPublished"
 												name="isPublished"
 												value={true}
-												onChange={(e) => {
-													setIsPublish(
-														e.target.value ===
-															"true",
-													);
-												}}
+												onChange={
+													handlePublishChange
+												}
+												checked={isPublished}
 											/>
 											&nbsp;&nbsp; Approve
 											publishing&nbsp;&nbsp;&nbsp;&nbsp;
@@ -418,12 +424,10 @@ export default function AddTrainSchedule() {
 												id="isPublished"
 												name="isPublished"
 												value={false}
-												onChange={(e) => {
-													setIsPublish(
-														e.target.value ===
-															"false",
-													);
-												}}
+												onChange={
+													handlePublishChange
+												}
+												checked={!isPublished}
 											/>
 											&nbsp;&nbsp; Decline publishing
 										</div>
@@ -439,6 +443,7 @@ export default function AddTrainSchedule() {
 										</div>
 										<div className="col py-3 text-center">
 											<button
+												onClick={handleClose}
 												type="reset"
 												className="btn btn-reset">
 												Cancel
