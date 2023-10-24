@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://localhost:7241/api/Traveler"; // Replace with your API endpoint
+const BASE_URL = "http://localhost:7241/api/User"; 
 
 export const login = async (email, nic) => {
   try {
@@ -16,7 +16,7 @@ export const login = async (email, nic) => {
 
 export const signup = async (userData) => {
   try {
-    const response = await axios.post(`${BASE_URL}/signup`, userData);
+    const response = await axios.post(`${BASE_URL}`, userData);
     return response.data; // Include user type (role) in the response
   } catch (error) {
     return error;

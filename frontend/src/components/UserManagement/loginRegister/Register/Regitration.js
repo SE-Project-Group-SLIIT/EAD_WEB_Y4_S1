@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import { signup } from '../../../../services/util/userManagement/index'
+import Swal from 'sweetalert2';
+
 
 const RegisterForm = ({ setClickedSignIn }) => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [nic, setNIC] = useState('');
     const [password, setPassword] = useState('');
-    const [selectedRole, setSelectedRole] = useState('');
+    const [role, setRole] = useState('');
     const [error, setError] = useState('');
 
     const handleUsernameChange = (event) => {
@@ -25,7 +28,7 @@ const RegisterForm = ({ setClickedSignIn }) => {
     };
 
     const handleRoleChange = (event) => {
-        setSelectedRole(event.target.value);
+        setRole(event.target.value);
     };
 
     const validateUsername = () => {
@@ -78,7 +81,7 @@ const RegisterForm = ({ setClickedSignIn }) => {
     };
 
     const validateRole = () => {
-        if (!selectedRole) {
+        if (!role) {
             setError('Role is required.');
             return false;
         }
@@ -86,26 +89,56 @@ const RegisterForm = ({ setClickedSignIn }) => {
         return true;
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-
+    
         const isUsernameValid = validateUsername();
         const isEmailValid = validateEmail();
         const isNICValid = validateNIC();
         const isPasswordValid = validatePassword();
         const isRoleValid = validateRole();
-
+    
         if (isUsernameValid && isEmailValid && isNICValid && isPasswordValid && isRoleValid) {
-            // Handle form submission here (in this example, just log the data)
-            console.log('Form submitted:', {
-                username,
-                email,
-                nic,
-                password,
-                selectedRole
-            });
+            try {
+                const response = await signup({
+                    username,
+                    email,
+                    nic,
+                    password,
+                    role
+                });
+                // Check the response for success
+                if (response ) {
+                    // Registration was successful
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Registration Successful',
+                        text: 'You have successfully registered!',
+                    }).then(() => {
+                        // Reload the page
+                        window.location.reload();
+                    });
+                    
+                } else {
+                    // Registration failed
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Registration Failed',
+                        text: 'An error occurred during registration.',
+                    });
+                }
+            } catch (error) {
+                // Handle any other errors (e.g., network error)
+                console.error('Registration error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Registration Failed',
+                    text: 'An error occurred during registration.',
+                });
+            }
         }
     };
+    
 
     return (
         <div className="card-body p-4 p-sm-5" style={{ minHeight: '600px' }}>
@@ -133,7 +166,7 @@ const RegisterForm = ({ setClickedSignIn }) => {
 
                 <div className="form-group mb-3">
                     <label htmlFor="roleSelect">Select Role:</label>
-                    <select className="form-control" id="roleSelect" value={selectedRole} onChange={handleRoleChange} required>
+                    <select className="form-control" id="roleSelect" value={role} onChange={handleRoleChange} required>
                         <option value="">Select a role</option>
                         <option value="traveller">Traveller</option>
                         <option value="admin">Admin</option>
