@@ -216,7 +216,7 @@ export default function UpdateTravelerDetails({data, cl}){
 									<button
 										type="submit"
 										className="btn btn-ok">
-										Add
+										Update
 									</button>
 								</div>
 								<div className="col py-3 text-center">

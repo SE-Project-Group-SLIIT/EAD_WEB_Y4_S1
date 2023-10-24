@@ -39,7 +39,7 @@ export default function AddTravelerDetails() {
             // Handle success here (e.g., show success message, navigate to another page, etc.)
             Swal.fire({
                 title: "Success!",
-                text: "Traveler Schedule Details Added Successfully",
+                text: "Traveler Details Added Successfully",
                 icon: "success",
                 showConfirmButton: false,
                 timer: 2000,
